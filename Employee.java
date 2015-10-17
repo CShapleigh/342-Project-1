@@ -3,7 +3,6 @@ public interface Employee {
   void leaveWork();
   void begnTimeBox(String type);
   void endTimeBox();
-  void askQuestion();
   void answerQuestion();
   void doWork(int nextTimebox);
   boolean inTimebox();

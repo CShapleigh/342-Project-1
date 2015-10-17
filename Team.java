@@ -50,6 +50,16 @@ public class Team {
         return teamMember;
       }
     }
+    return null;
+  }
+
+  public Employee teamLead() {
+    for (Employee lead : teamMembers) {
+      if (lead instanceof Developer && ((Developer) lead).isLead) {
+        return lead;
+      }
+    }
+    return null;
   }
 
 }
