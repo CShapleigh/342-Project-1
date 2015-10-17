@@ -12,6 +12,10 @@ public class Manager extends Thread implements Employee {
     return this.team;
   }
 
+  public void setTeam(Team team) {
+    this.team = team;
+  }
+
   public void run() {
 
   }

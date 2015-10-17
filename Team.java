@@ -9,7 +9,7 @@ public class Team {
   }
 
   public void addEmployee(Employee teamMember) {
-    teamMembers.add(teamMember);
+    teamMembers.add(teamMember.setTeam());
   }
 
   public void beginDay() {
