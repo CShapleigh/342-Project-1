@@ -66,12 +66,12 @@ public class Developer extends Thread implements Employee {
   }
 
   public boolean inTheBuilding() {
+    //
     return arrived;
   }
 
-  public void grabRoom(Room room) {
-    // if room is locked, developer will wait outside the room
-    while (room.isLocked) {
+  public void waitForEmployees() {
+    while (!myTeam().everyoneArrived()) {
       try {
         // queue up members of team at the meeting room
         this.myTeam().roomEntryBarrier.await();
@@ -82,7 +82,27 @@ public class Developer extends Thread implements Employee {
         e.printStackTrace();
       }
     }
+  }
 
-    // TODO: enter room
+  public void grabRoom(Room room) {
+    // if room is locked, developer will wait outside the room
+
+    // if everyone arrives and trying to meet, team leader can enter the
+    if (this.isLead) {
+      waitForEmployees();
+    }
+
+    // now employees are together; wait for unlocked room
+    if (this.isLead) {
+      while (room.isLocked) {
+        try {
+          wait();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+
+      // TODO: enter room
+    }
   }
 }
