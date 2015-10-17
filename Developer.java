@@ -14,14 +14,16 @@ public class Developer extends Thread implements Employee {
 
   }
 
+  public void leaveWork() {
+
+  }
+
   public void arriveAtWork() {
+    // arrives at 8am every day
     arrived = true;
     System.out.println("Whatever format");
   }
 
-  public void leaveWork() {
-
-  }
 
   public void begnTimeBox(String type) {
 
@@ -32,10 +34,12 @@ public class Developer extends Thread implements Employee {
   }
 
   public void askQuestion() {
+    // only leads can ask question
 
   }
 
   public void answerQuestion() {
+    // 50% chance that leads can
 
   }
 
@@ -52,4 +56,16 @@ public class Developer extends Thread implements Employee {
     return arrived;
   }
 
+  public void grabRoom(Room room) {
+    // if room is locked, developer will wait outside the room
+    while (room.isLocked) {
+      try {
+        wait();
+      } catch (InterruptedException e) {
+        System.out.println(e);
+      }
+    }
+
+    // TODO: enter room
+  }
 }
