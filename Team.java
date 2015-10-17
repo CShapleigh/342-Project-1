@@ -45,7 +45,7 @@ public class Team {
   }
 
   public Employee teamManager() {
-    for(Employee teamManager : teamMembers) {
+    for(Employee teamMember : teamMembers) {
       if (teamMember instanceof Manager) {
         return teamMember;
       }
@@ -54,12 +54,12 @@ public class Team {
   }
 
   public Employee teamLead() {
-    for (Employee lead : teamMembers) {
-      if (lead instanceof Manager) {
+    for (Employee teamMember : teamMembers) {
+      if (teamMember instanceof Manager) {
         break;
       }
-      if (lead.isLead) {
-        return lead;
+      if (teamMember.isLead) {
+        return teamMember;
       }
     }
     return null;
