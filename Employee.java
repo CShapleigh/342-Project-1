@@ -9,4 +9,5 @@ public interface Employee {
   public boolean inTimebox();
   public boolean inTheBuilding();
   public Team myTeam();
+  public void setTeam(Team team);
 }

@@ -19,6 +19,10 @@ public class Developer extends Thread implements Employee {
     return this.team;
   }
 
+  public void setTeam(Team team) {
+    this.team = team;
+  }
+
   public void leaveWork() {
     // start leaving 4:30/5
     // project manager
