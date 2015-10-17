@@ -30,4 +30,13 @@ public class Team {
     return true;
   }
 
+  public boolean developersGone() {
+    for(Employee teamMember : teamMembers) {
+      if (!teamMember.isLead && teamMember.inTheBuilding()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
