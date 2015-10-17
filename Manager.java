@@ -20,7 +20,6 @@ public class Manager extends Thread implements Employee {
     arriveAtWork();
     //wait for team leads
     beginTimeBox("Standup");
-    
     leaveWork();
 
   }
