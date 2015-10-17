@@ -18,9 +18,20 @@ public class Timebox {
     return r.nextInt((max-min) + 1) + min;
   }
 
-  public static String timeToString(long time){
-    //uhh
-    return null;
+  public static String timeToString(int time){
+	//Asssume its morning
+	String amOrPM = "AM";
+	//finds minutes from remainder when divided by intervals of an hour
+    int minutes = String.format("%02d", time%600);
+    //find hour associated with time
+    int hours = String.format("%02d", (Math.floor((double)time/600) + 8));
+    //if past noon, format to proper time and changes to PM
+    if(hours > 12){
+    	hours = hours - 12;
+    	amOrPM = "PM";
+    }
+    String timeString = hours.toString() + ":" + minutes.toString() + amOrPM;
+    return timeString;
   }
 
   public static void startTimebox(Employee employee, String type) {
