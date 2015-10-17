@@ -1,6 +1,6 @@
 public class Room {
-	public boolean isLocked;
-	public Team team;
+	public static boolean isLocked;
+	public static Team team;
 	
 	public Room(){
 		isLocked= false;
@@ -28,7 +28,7 @@ public class Room {
   public static void freeRoom(){
 	  if(isLocked){
 		  isLocked = false;
-		  system.out.println("Room is free");
+		  System.out.println("Room is free");
 		  notifyAll();
 	  }
   }
