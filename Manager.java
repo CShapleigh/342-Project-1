@@ -8,6 +8,11 @@ public class Manager implements Employee extends Thread {
   }
 
   public void run() {
+    arriveAtWork();
+    //wait for team leads
+    beginTimeBox("Standup");
+    
+    leaveWork();
 
   }
 
@@ -19,7 +24,6 @@ public class Manager implements Employee extends Thread {
   public void leaveWork() {
     arrived = false;
     System.out.println("Whatever format");
-
   }
 
   public void begnTimeBox(String type) {
