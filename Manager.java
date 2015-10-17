@@ -2,8 +2,10 @@ public class Manager extends Thread implements Employee {
 
   public boolean arrived;
   public Team team;
+  public Int managerID;
 
-  public Manager() {
+  public Manager(Int managerID) {
+    this.managerID = managerID;
     arrived = false;
 
   }
@@ -21,7 +23,6 @@ public class Manager extends Thread implements Employee {
     //wait for team leads
     beginTimeBox("Standup");
     leaveWork();
-
   }
 
   public void arriveAtWork() {

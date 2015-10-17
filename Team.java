@@ -32,11 +32,22 @@ public class Team {
 
   public boolean developersGone() {
     for(Employee teamMember : teamMembers) {
-      if (!teamMember.isLead && teamMember.inTheBuilding()) {
+      if (!teamMember.isLead || teamMember instanceof Manager) {
+        break;
+      }
+      if (teamMember.inTheBuilding()) {
         return false;
       }
     }
     return true;
+  }
+
+  public Employee teamManager() {
+    for(Employee teamManager : teamMembers) {
+      if (teamMember instanceof Manager) {
+        return teamMember;
+      }
+    }
   }
 
 }
