@@ -1,12 +1,12 @@
 public class Developer extends Thread implements Employee {
 
   public boolean arrived;
-  public String name;
+  public int developerID;
   public boolean isLead;
   public Team team;
 
-  public Developer(String name, boolean isLead) {
-    this.name = name;
+  public Developer(int developerID, boolean isLead) {
+    this.developerID = developerID;
     this.isLead = isLead;
     arrived = false;
   }
