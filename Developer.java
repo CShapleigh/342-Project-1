@@ -2,7 +2,7 @@ import java.util.concurrent.BrokenBarrierException;
 
 public class Developer extends Thread implements Employee {
 
-  public boolean arrived;
+  public boolean atWork;
   public int developerID;
   public boolean isLead;
   public Team team;
@@ -10,7 +10,7 @@ public class Developer extends Thread implements Employee {
   public Developer(int developerID, boolean isLead) {
     this.developerID = developerID;
     this.isLead = isLead;
-    arrived = false;
+    atWork = false;
   }
 
   public void run() {
@@ -28,17 +28,31 @@ public class Developer extends Thread implements Employee {
   public void leaveWork() {
     // start leaving 4:30/5
     // project manager
-
+    if (this.isLead) {
+      if (this.team.developersGone()) {
+        // all other developers on the team are gone -- lead can leave
+        atWork = false;
+      } else {
+        // can't leave work
+      }
+    } else {
+      // leave work
+      atWork = false;
+    }
   }
 
   public void arriveAtWork() {
     // arrives at 8am every day
-    arrived = true;
+    atWork = true;
     System.out.println("Whatever format");
   }
 
 
   public void begnTimeBox(String type) {
+
+    // lunchish
+
+    // 4:15
 
   }
 
@@ -59,6 +73,10 @@ public class Developer extends Thread implements Employee {
   public void doWork(int nextTimebox) {
     //wait around, ask a question, if lead, answer if possible
 
+    // call startTimebox
+    currentThread().sleep(1000);
+    currentThread().start();
+
   }
 
   public boolean inTimebox() {
@@ -67,7 +85,7 @@ public class Developer extends Thread implements Employee {
 
   public boolean inTheBuilding() {
     //
-    return arrived;
+    return atWork;
   }
 
   public void waitForEmployees() {
