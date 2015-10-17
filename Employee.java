@@ -1,10 +1,10 @@
 public interface Employee {
-  //arriveAtWork();
-  //leaveWork();
-  //beginTimeBox();
-  //endTimeBox();
-  //askQuestion();
-  //answerQuestion();
-  //doWork();
-  //inTimebox();
+  public void arriveAtWork();
+  public void leaveWork();
+  public void begnTimeBox(String type);
+  public void endTimeBox();
+  public void askQuestion();
+  public void answerQuestion();
+  public void doWork(int nextTimebox);
+  public boolean inTimebox();
 }
