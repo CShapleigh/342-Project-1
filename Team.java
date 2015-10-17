@@ -11,8 +11,10 @@ public class Team {
   }
 
   public void addEmployee(Employee teamMember) {
-    teamMember.setTeam();
-    teamMembers.add(teamMember);
+    if (!teamMembers.contains(teamMember)) {
+      teamMember.setTeam();
+      teamMembers.add(teamMember);
+    }
   }
 
   public void beginDay() {
