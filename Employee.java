@@ -8,4 +8,5 @@ public interface Employee {
   public void doWork(int nextTimebox);
   public boolean inTimebox();
   public boolean inTheBuilding();
+  public Team myTeam();
 }

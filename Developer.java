@@ -3,6 +3,7 @@ public class Developer extends Thread implements Employee {
   public boolean arrived;
   public String name;
   public boolean isLead;
+  public Team team;
 
   public Developer(String name, boolean isLead) {
     this.name = name;
@@ -14,7 +15,13 @@ public class Developer extends Thread implements Employee {
 
   }
 
+  public Team myTeam() {
+    return this.team;
+  }
+
   public void leaveWork() {
+    // start leaving 4:30/5
+    // project manager
 
   }
 

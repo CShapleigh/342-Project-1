@@ -1,10 +1,15 @@
 public class Manager extends Thread implements Employee {
 
   public boolean arrived;
+  public Team team;
 
   public Manager() {
     arrived = false;
 
+  }
+
+  public Team myTeam() {
+    return this.team;
   }
 
   public void run() {
