@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 
 public class Developer extends Thread implements Employee {
@@ -32,11 +33,8 @@ public class Developer extends Thread implements Employee {
       if (this.team.developersGone()) {
         // all other developers on the team are gone -- lead can leave
         atWork = false;
-      } else {
-        // can't leave work
       }
     } else {
-      // leave work
       atWork = false;
     }
   }
@@ -57,17 +55,38 @@ public class Developer extends Thread implements Employee {
   }
 
   public void endTimeBox() {
+    // TODO: implement
 
   }
 
   public void askQuestion() {
-    // only leads can ask question
+    // TODO: finish
+    // any point during day a team member can ask a question
 
+    // leads can ask too
+    if (this.isLead) {
+      // lead has to go to manager -- going to wait 10 minutes
+      this.team.teamManager().askQuestion();
+    } else {
+      // dev has to ask lead the question
+      this.team.teamLead().answerQuestion();
+    }
   }
 
   public void answerQuestion() {
-    // 50% chance that leads can
+    // TODO: finish
 
+    // only lead and mangers
+    if (this.isLead) {
+      // 50% chance that leads can
+      Random random = new Random(2);
+      if (random.nextInt() == 0) {
+        // answer immediately
+      } else {
+        // goes to team manager with current question
+        this.team.teamManager().askQuestion();
+      }
+    }
   }
 
   public void doWork(int nextTimebox) {
@@ -76,7 +95,6 @@ public class Developer extends Thread implements Employee {
     // call startTimebox
     currentThread().sleep(1000);
     currentThread().start();
-
   }
 
   public boolean inTimebox() {
