@@ -12,7 +12,7 @@ public class Room {
 		  lockRoom();
 		  this.team = team;
 		  System.out.println("Team " + team.teamID + " arrives in room");
-		  foreach(Employee teamMember : team.teamMembers){
+		  for(Employee teamMember : team.teamMembers){
 			  teamMember.beginTimebox("Standup");
 		  }
 	  }
