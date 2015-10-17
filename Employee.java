@@ -7,4 +7,5 @@ public interface Employee {
   public void answerQuestion();
   public void doWork(int nextTimebox);
   public boolean inTimebox();
+  public boolean inTheBuilding();
 }
