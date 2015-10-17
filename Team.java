@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.concurrent.CyclicBarrier;
 
 public class Team {
   public ArrayList<Employee> teamMembers;
   public int teamID;
+  public CyclicBarrier roomEntryBarrier;
 
   public Team() {
      this.teamMembers = new ArrayList<Employee>();

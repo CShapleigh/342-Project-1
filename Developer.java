@@ -1,3 +1,5 @@
+import java.util.concurrent.BrokenBarrierException;
+
 public class Developer extends Thread implements Employee {
 
   public boolean arrived;
@@ -71,9 +73,13 @@ public class Developer extends Thread implements Employee {
     // if room is locked, developer will wait outside the room
     while (room.isLocked) {
       try {
+        // queue up members of team at the meeting room
+        this.myTeam().roomEntryBarrier.await();
         wait();
       } catch (InterruptedException e) {
         System.out.println(e);
+      } catch (BrokenBarrierException e) {
+        e.printStackTrace();
       }
     }
 
