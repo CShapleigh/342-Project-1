@@ -20,24 +20,25 @@ public class Timebox {
 
   public static String timeToString(long time){
     //uhh
+    return null;
   }
 
   public static void startTimebox(Employee employee, String type) {
     switch (type) {
       case "Standup":
-        standupMeeting(employee);
+//        standupMeeting(employee);
         break;
       case "Lunch":
-        lunchTime(employee);
+//        lunchTime(employee);
         break;
       case "Ten_AM_Meeting":
-        normalMeeting(employee);
+//        normalMeeting(employee);
         break;
       case "TWO_PM_Meeting":
-        normalMeeting(employee);
+//        normalMeeting(employee);
         break;
       case "Four_PM_Meeting":
-        standupMeeting(employee);
+//        standupMeeting(employee);
         break;
     }
   }
