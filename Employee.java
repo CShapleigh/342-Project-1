@@ -1,13 +1,13 @@
 public interface Employee {
-  public void arriveAtWork();
-  public void leaveWork();
-  public void begnTimeBox(String type);
-  public void endTimeBox();
-  public void askQuestion();
-  public void answerQuestion();
-  public void doWork(int nextTimebox);
-  public boolean inTimebox();
-  public boolean inTheBuilding();
-  public Team myTeam();
-  public void setTeam(Team team);
+  void arriveAtWork();
+  void leaveWork();
+  void begnTimeBox(String type);
+  void endTimeBox();
+  void askQuestion();
+  void answerQuestion();
+  void doWork(int nextTimebox);
+  boolean inTimebox();
+  boolean inTheBuilding();
+  Team myTeam();
+  void setTeam(Team team);
 }
