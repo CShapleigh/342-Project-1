@@ -1,7 +1,7 @@
-public class Developer implements Employee extends Thread {
+public class Developer extends Thread implements Employee {
 
   public boolean arrived;
-  public string name;
+  public String name;
   public boolean isLead;
 
   public Developer(String name, boolean isLead) {
@@ -45,7 +45,7 @@ public class Developer implements Employee extends Thread {
   }
 
   public boolean inTimebox() {
-
+    return false;
   }
 
   public boolean inTheBuilding() {

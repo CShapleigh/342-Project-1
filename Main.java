@@ -1,3 +1,4 @@
+
 //Main driver should take in number of Managers and create teams based on that
 /*
 * createDay(int numManagers)
@@ -26,3 +27,10 @@
 * beginDay();
 *
 */
+
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Starting work day");
+    }
+}

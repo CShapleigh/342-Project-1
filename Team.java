@@ -14,7 +14,7 @@ public class Team {
 
   public void beginDay() {
     for(Employee teamMember : teamMembers) {
-      teamMember.run();
+//      teamMember.run();
     }
   }
 

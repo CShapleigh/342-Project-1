@@ -1,4 +1,4 @@
-public class Manager implements Employee extends Thread {
+public class Manager extends Thread implements Employee {
 
   public boolean arrived;
 
@@ -25,7 +25,7 @@ public class Manager implements Employee extends Thread {
   public void begnTimeBox(String type) {
     Timebox obligation = new Timebox();
     System.out.println("Whatever format");
-    obligation.begnTimeBox(this, type);
+//    obligation.begnTimeBox(this, type);
   }
 
   public void endTimeBox() {
@@ -40,12 +40,12 @@ public class Manager implements Employee extends Thread {
 
   }
 
-  public void doWork(int nextTimebox) {
-    //do nothing, unless a question is asked, then answer it
+    public void doWork(int nextTimebox) {
 
-  }
+    }
 
   public boolean inTimebox(){
+      return false;
 
   }
 
