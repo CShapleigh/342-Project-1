@@ -17,11 +17,15 @@ public class Manager implements Employee extends Thread {
   }
 
   public void leaveWork() {
+    arrived = false;
+    System.out.println("Whatever format");
 
   }
 
   public void begnTimeBox(String type) {
-
+    Timebox obligation = new Timebox();
+    System.out.println("Whatever format");
+    obligation.begnTimeBox(this, type);
   }
 
   public void endTimeBox() {
