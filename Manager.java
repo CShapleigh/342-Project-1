@@ -44,4 +44,9 @@ public class Manager implements Employee extends Thread {
   public boolean inTimebox(){
 
   }
+
+  public boolean inTheBuilding() {
+    return arrived;
+  }
+
 }

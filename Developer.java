@@ -48,4 +48,8 @@ public class Developer implements Employee extends Thread {
 
   }
 
+  public boolean inTheBuilding() {
+    return arrived;
+  }
+
 }

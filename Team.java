@@ -6,7 +6,6 @@ public class Team {
 
   public Team() {
      this.teamMembers = new ArrayList<Employee>();
-
   }
 
   public void addEmployee(Employee teamMember) {
@@ -14,9 +13,18 @@ public class Team {
   }
 
   public void beginDay() {
-    foreach(Employee teamMember : teamMembers) {
+    for(Employee teamMember : teamMembers) {
       teamMember.run();
     }
+  }
+
+  public boolean everyoneArrived() {
+    for(Employee teamMember : teamMembers) {
+      if (teamMember.inTheBuilding() == false) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }
