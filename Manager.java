@@ -1,10 +1,10 @@
 public class Manager extends Thread implements Employee {
 
-  public boolean arrived;
+  public boolean atWork;
   public Team team;
 
   public Manager() {
-    arrived = false;
+    atWork = false;
 
   }
 
@@ -25,12 +25,12 @@ public class Manager extends Thread implements Employee {
   }
 
   public void arriveAtWork() {
-    arrived = true;
+    atWork = true;
     System.out.println("Whatever format");
   }
 
   public void leaveWork() {
-    arrived = false;
+    atWork = false;
     System.out.println("Whatever format");
   }
 
@@ -62,7 +62,7 @@ public class Manager extends Thread implements Employee {
   }
 
   public boolean inTheBuilding() {
-    return arrived;
+    return atWork;
   }
 
 }
