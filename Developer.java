@@ -66,7 +66,7 @@ public class Developer extends Thread implements Employee {
     // leads can ask too
     if (this.isLead) {
       // lead has to go to manager -- going to wait 10 minutes
-      this.team.teamManager().askQuestion();
+      this.team.teamManager().answerQuestion();
     } else {
       // dev has to ask lead the question
       this.team.teamLead().answerQuestion();
@@ -84,7 +84,7 @@ public class Developer extends Thread implements Employee {
         // answer immediately
       } else {
         // goes to team manager with current question
-        this.team.teamManager().askQuestion();
+        this.team.teamManager().answerQuestion();
       }
     }
   }

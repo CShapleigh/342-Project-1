@@ -44,10 +44,6 @@ public class Manager extends Thread implements Employee {
 
   }
 
-  public void askQuestion() {
-
-  }
-
   public void answerQuestion() {
 
   }
