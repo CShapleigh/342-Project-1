@@ -6,9 +6,11 @@ public class Developer extends Thread implements Employee {
   public boolean atWork;
   public int developerID;
   public boolean isLead;
+  public boolean questionAnswered;
   public Team team;
 
   public Developer(int developerID, boolean isLead) {
+    this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
     atWork = false;
@@ -61,19 +63,26 @@ public class Developer extends Thread implements Employee {
 
   public void askQuestion() {
     // TODO: finish
-    // any point during day a team member can ask a question
+    // any point during day a dev (and leads) can ask a question
+    this.questionAnswered = false;
 
-    // leads can ask too
     if (this.isLead) {
       // lead has to go to manager -- going to wait 10 minutes
       this.team.teamManager().answerQuestion();
     } else {
       // dev has to ask lead the question
       this.team.teamLead().answerQuestion();
+      try {
+        while (this.team.teamLead().answerQuestion() == false) {
+          wait();
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 
-  public void answerQuestion() {
+  public boolean answerQuestion() {
     // TODO: finish
 
     // only lead and mangers
@@ -82,11 +91,21 @@ public class Developer extends Thread implements Employee {
       Random random = new Random(2);
       if (random.nextInt() == 0) {
         // answer immediately
+        return true;
       } else {
         // goes to team manager with current question
-        this.team.teamManager().answerQuestion();
+        try {
+          while (this.team.teamManager().answerQuestion() == false) {
+            wait();
+          }
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     }
+
+    this.questionAnswered = true;
+    return true;
   }
 
   public void doWork(int nextTimebox) {

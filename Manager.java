@@ -44,8 +44,8 @@ public class Manager extends Thread implements Employee {
 
   }
 
-  public void answerQuestion() {
-
+  public void answerDeveloperQuestion() {
+    // TODO: implement
   }
 
   public void doWork(int nextTimebox) {
