@@ -20,7 +20,7 @@ public class Manager extends Thread implements Employee {
   public void run() {
     arriveAtWork();
     //wait for team leads
-    beginTimeBox("Standup");
+    beginTimebox("Standup");
     leaveWork();
   }
 
@@ -34,7 +34,7 @@ public class Manager extends Thread implements Employee {
     System.out.println("Whatever format");
   }
 
-  public void begnTimeBox(String type) {
+  public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
     System.out.println("Whatever format");
 //    obligation.begnTimeBox(this, type);
@@ -44,8 +44,12 @@ public class Manager extends Thread implements Employee {
 
   }
 
-  public void answerDeveloperQuestion() {
-    // TODO: implement
+  public void askQuestion() {
+    return null;
+  }
+
+  public boolean answerQuestion() {
+    return false;
   }
 
   public void doWork(int nextTimebox) {
@@ -59,6 +63,10 @@ public class Manager extends Thread implements Employee {
 
   public boolean inTheBuilding() {
     return atWork;
+  }
+
+  public boolean isTeamLead() {
+    return false;
   }
 
 }

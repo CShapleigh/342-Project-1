@@ -28,6 +28,8 @@
 *
 */
 
+import java.util.ArrayList;
+
 public class Main {
     public ArrayList<Team> teams;
 
@@ -35,18 +37,18 @@ public class Main {
         System.out.println("Starting work day");
     }
 
-    private void createDay(Int numberOfManagers) {
+    private void createDay(int numberOfManagers) {
       for(int i = 0; i < numberOfManagers; i++) {
         Employee manager = new Manager(i);
-        for(int teamNumber = 0; teamNumber < 2, teamNumber++) {
-          Team team = new Team(teamNumber, true);
+        for(int teamNumber = 0; teamNumber < 2; teamNumber++) {
+          Team team = new Team(teamNumber);
           Employee teamLead = new  Developer(teamNumber, false);
           //check if manager is not in here first
-          team.add(manager);
-          team.add(teamLead);
-          for(int employeeID = 0; employeeID < 3, employeeID++) {
+          team.addEmployee(manager);
+          team.addEmployee(teamLead);
+          for(int employeeID = 0; employeeID < 3; employeeID++) {
             Employee normalDeveloper = new  Developer(employeeID, false);
-            team.add(normalDeveloper);
+            team.addEmployee(normalDeveloper);
           }
         }
       }

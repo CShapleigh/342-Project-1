@@ -10,7 +10,7 @@ public class Room {
   public static void addTeam(Team team) {
 	  if (!isLocked) {
 		  lockRoom();
-		  this.team = team;
+		  Room.team = team;
 		  System.out.println("Team " + team.teamID + " arrives in room");
 		  for (Employee teamMember : team.teamMembers) {
 				//I think we should move the print statement here, so it's each team
@@ -21,7 +21,7 @@ public class Room {
 	  }
   }
 
-  public static void lockRoom(){
+  public static void lockRoom() {
 	  if (!isLocked) {
 		  isLocked = true;
 		  System.out.println("Room is locked");

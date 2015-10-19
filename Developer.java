@@ -48,7 +48,7 @@ public class Developer extends Thread implements Employee {
   }
 
 
-  public void begnTimeBox(String type) {
+  public void beginTimebox(String type) {
 
     // lunchish
 
@@ -102,6 +102,7 @@ public class Developer extends Thread implements Employee {
           e.printStackTrace();
         }
       }
+      return false;
     }
 
     this.questionAnswered = true;
@@ -112,8 +113,12 @@ public class Developer extends Thread implements Employee {
     //wait around, ask a question, if lead, answer if possible
 
     // call startTimebox
-    currentThread().sleep(1000);
-    currentThread().start();
+    try {
+      currentThread().sleep(1000);
+      currentThread().start();
+    } catch (Exception e) {
+      System.err.println("Error");
+    }
   }
 
   public boolean inTimebox() {
@@ -159,5 +164,9 @@ public class Developer extends Thread implements Employee {
 
       // TODO: enter room
     }
+  }
+
+  public boolean isTeamLead() {
+    return isLead;
   }
 }

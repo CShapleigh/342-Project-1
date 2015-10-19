@@ -13,7 +13,7 @@ public class Team {
 
   public void addEmployee(Employee teamMember) {
     if (!teamMembers.contains(teamMember)) {
-      teamMember.setTeam();
+      teamMember.setTeam(this);
       teamMembers.add(teamMember);
     }
   }
@@ -35,7 +35,7 @@ public class Team {
 
   public boolean developersGone() {
     for(Employee teamMember : teamMembers) {
-      if (!teamMember.isLead || teamMember instanceof Manager) {
+      if (!teamMember.isTeamLead() || teamMember instanceof Manager) {
         break;
       }
       if (teamMember.inTheBuilding()) {
@@ -59,7 +59,7 @@ public class Team {
       if (teamMember instanceof Manager) {
         break;
       }
-      if (teamMember.isLead) {
+      if (teamMember.isTeamLead()) {
         return teamMember;
       }
     }
