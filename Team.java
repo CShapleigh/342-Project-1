@@ -6,8 +6,9 @@ public class Team {
   public int teamID;
   public CyclicBarrier roomEntryBarrier;
 
-  public Team() {
-     this.teamMembers = new ArrayList<Employee>();
+  public Team(int teamID) {
+    this.teamID = teamID;
+    this.teamMembers = new ArrayList<Employee>();
   }
 
   public void addEmployee(Employee teamMember) {
