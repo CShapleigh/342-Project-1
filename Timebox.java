@@ -22,15 +22,18 @@ public class Timebox {
 	//Asssume its morning
 	String amOrPM = "AM";
 	//finds minutes from remainder when divided by intervals of an hour
-    int minutes = String.format("%02d", time%600);
+    String minutes_string = String.format("%02d", time % 600);
     //find hour associated with time
-    int hours = String.format("%02d", (Math.floor((double)time/600) + 8));
+    String hours_string = String.format("%02d", (Math.floor((double)time/600) + 8));
+
+    int hours = Integer.parseInt(hours_string);
     //if past noon, format to proper time and changes to PM
-    if(hours > 12){
+    if (hours > 12){
     	hours = hours - 12;
     	amOrPM = "PM";
+        hours_string = Integer.toString(hours);
     }
-    String timeString = hours.toString() + ":" + minutes.toString() + amOrPM;
+    String timeString = hours_string + ":" + minutes_string + amOrPM;
     return timeString;
   }
 
