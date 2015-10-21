@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class Developer extends Thread implements Employee {
   public Team team;
 
   public Developer(int developerID, boolean isLead) {
+    System.out.println("Creating developer " + developerID);
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
@@ -31,41 +33,34 @@ public class Developer extends Thread implements Employee {
     this.team = team;
   }
 
-  public void leaveWork() {
-    // start leaving 4:30/5
-    // project manager
-    if (this.isLead) {
-      if (this.team.developersGone()) {
-        // all other developers on the team are gone -- lead can leave
-        atWork = false;
-      }
-    } else {
-      atWork = false;
-    }
+  public boolean isTeamLead() {
+    return isLead;
   }
 
   public void arriveAtWork() {
     // arrives at 8am every day
     atWork = true;
-    System.out.println("Whatever format");
+    System.out.println(currentThread().getName() + " arrives at work");
   }
 
 
   public void beginTimebox(String type) {
+    // locks thread for X amount of time
+//    threadSleep();
 
     // lunchish
 
     // 4:15
-
   }
 
   public void endTimeBox() {
     // TODO: implement
-
+    System.out.println("Ending time box");
   }
 
   public void askQuestion() {
     // TODO: finish
+    System.out.println(
     // any point during day a dev (and leads) can ask a question
     this.questionAnswered = false;
 
@@ -82,6 +77,19 @@ public class Developer extends Thread implements Employee {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
+    }
+  }
+
+  public void leaveWork() {
+    // start leaving 4:30/5
+    // project manager
+    if (this.isLead) {
+      if (this.team.developersGone()) {
+        // all other developers on the team are gone -- lead can leave
+        atWork = false;
+      }
+    } else {
+      atWork = false;
     }
   }
 
@@ -147,8 +155,9 @@ public class Developer extends Thread implements Employee {
     }
   }
 
+
   public void grabRoom(Room room) {
-    if(!this.isLead) {
+    if (!this.isLead) {
       return;
     }
     // if room is locked, developer will wait outside the room
@@ -168,16 +177,34 @@ public class Developer extends Thread implements Employee {
       // TODO: enter room
   }
 
-  public boolean isTeamLead() {
-    return isLead;
-  }
-
   public void threadSleep(long time) {
     try {
       sleep(time);
     } catch (Exception e) {
       System.err.println("Error");
     }
+  }
+
+  public void run() {
+    System.out.println("Developer running");
+    // arrive
+    arriveAtWork();
+
+    // do work
+
+    // asks questions
+    askQuestion();
+    doWork(Timebox.LUNCH);
+
+    // eat lunch
+    Timebox.startTimebox(this, "LUNCH");
+
+    // grabs rom
+
+
+    // leaveWork
+    leaveWork();
+
   }
 
 }
