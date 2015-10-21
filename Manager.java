@@ -69,4 +69,12 @@ public class Manager extends Thread implements Employee {
     return false;
   }
 
+  public void threadSleep(long time) {
+    try {
+      sleep(time);
+    } catch (Exception e) {
+      System.err.println("Error");
+    }
+  }
+
 }

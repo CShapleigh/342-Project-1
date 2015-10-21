@@ -11,4 +11,5 @@ public interface Employee {
   Team myTeam();
   void setTeam(Team team);
   boolean isTeamLead();
+  void threadSleep(long time);
 }

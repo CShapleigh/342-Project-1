@@ -169,4 +169,13 @@ public class Developer extends Thread implements Employee {
   public boolean isTeamLead() {
     return isLead;
   }
+
+  public void threadSleep(long time) {
+    try {
+      sleep(time);
+    } catch (Exception e) {
+      System.err.println("Error");
+    }
+  }
+
 }
