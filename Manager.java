@@ -7,6 +7,7 @@ public class Manager extends Thread implements Employee {
   public int managerID;
 
   public Manager(int managerID) {
+    teams = new ArrayList<Team>();
     this.managerID  = managerID;
     atWork = false;
   }
