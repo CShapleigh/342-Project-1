@@ -20,11 +20,13 @@ public class Company {
           Employee normalDeveloper = new  Developer(employeeID, false);
           team.addEmployee(normalDeveloper);
         }
+        teams.add(team);
       }
     }
   }
 
   public void beginDay() {
+    System.out.println("test" + teams.size());
     for(Team team : teams) {
       team.beginDay();
     }

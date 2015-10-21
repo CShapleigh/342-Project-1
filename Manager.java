@@ -29,12 +29,12 @@ public class Manager extends Thread implements Employee {
 
   public void arriveAtWork() {
     atWork = true;
-    System.out.println("Whatever format");
+    System.out.println("Manager " + managerID + " arrives at work."); //TODO: add time
   }
 
   public void leaveWork() {
     atWork = false;
-    System.out.println("Whatever format");
+    System.out.println("Manager " + managerID + " leaves at work."); //TODO: add time
   }
 
   public void beginTimebox(String type) {
@@ -78,6 +78,10 @@ public class Manager extends Thread implements Employee {
     } catch (Exception e) {
       System.err.println("Error");
     }
+  }
+
+  public void threadRun() {
+    start();
   }
 
   private void waitForTeamLeadsAtWork() {

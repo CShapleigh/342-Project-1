@@ -20,7 +20,7 @@ public class Team {
 
   public void beginDay() {
     for(Employee teamMember : teamMembers) {
-//      teamMember.run();
+        teamMember.threadRun();
     }
   }
 
@@ -64,6 +64,10 @@ public class Team {
       }
     }
     return null;
+  }
+
+  public String getTeamID() {
+    return Integer.toString(teamID);
   }
 
 }

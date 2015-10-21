@@ -42,12 +42,14 @@ public class Developer extends Thread implements Employee {
     } else {
       atWork = false;
     }
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " leaves work."); //TODO: add time
+
   }
 
   public void arriveAtWork() {
     // arrives at 8am every day
     atWork = true;
-    System.out.println("Whatever format");
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
   }
 
 
@@ -178,6 +180,10 @@ public class Developer extends Thread implements Employee {
     } catch (Exception e) {
       System.err.println("Error");
     }
+  }
+
+  public void threadRun() {
+    start();
   }
 
 }
