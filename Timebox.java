@@ -2,9 +2,9 @@ import java.util.Random;
 
 
 public class Timebox {
-  public static final int STANDUP_MINS = 15;
-  public static final int MANAGER_MEETING_MINS = 60;
-  public static final int ANSWER_TIME_MINS = 10;
+  public static final int STANDUP_MINS = 150;
+  public static final int MANAGER_MEETING_MINS = 600;
+  public static final int ANSWER_TIME_MINS = 100;
   public static final int TEN_AM_MEET = 1200;
   public static final int TWO_PM_MEET = 3600;
   public static final int FOUR_PM_MEET = 4800;
