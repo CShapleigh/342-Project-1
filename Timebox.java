@@ -59,7 +59,7 @@ public class Timebox {
 
   private void standupMeeting(Employee employee) {
     try {
-      employee.sleep(STANDUP_MINS * 100);
+      employee.threadSleep(Long.valueOf(STANDUP_MINS * 100));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
     }
@@ -73,7 +73,7 @@ public class Timebox {
       lunchTime = fuzzTime(300, 600);
     }
     try {
-      employee.sleep(lunchTime);
+      employee.threadSleep(Long.valueOf(lunchTime));
     } catch (Exception e) {
       System.err.println("Error waiting during lunch");
     }
@@ -81,7 +81,7 @@ public class Timebox {
 
   private void normalMeeting(Employee employee) {
     try {
-      employee.sleep(MANAGER_LUNCH_AND_MEETING_LENGTH);
+      employee.threadSleep(Long.valueOf(MANAGER_LUNCH_AND_MEETING_LENGTH));
     } catch (Exception e) {
       System.err.println("Error waiting during meeting");
     }

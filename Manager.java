@@ -45,7 +45,7 @@ public class Manager extends Thread implements Employee {
   }
 
   public void askQuestion() {
-    return null;
+    System.out.println("I shouldn't be asking a question");
   }
 
   public boolean answerQuestion() {

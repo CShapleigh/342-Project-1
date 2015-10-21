@@ -7,7 +7,7 @@ public class Room {
 	}
 
 
-  public static void addTeam(Team team) {
+  public void addTeam(Team team) {
 	  if (!isLocked) {
 		  lockRoom();
 		  Room.team = team;
@@ -21,14 +21,14 @@ public class Room {
 	  }
   }
 
-  public static void lockRoom() {
+  public void lockRoom() {
 	  if (!isLocked) {
 		  isLocked = true;
 		  System.out.println("Room is locked");
 	  }
   }
 
-  public static void freeRoom() {
+  public void freeRoom() {
 	  if(isLocked) {
 		  isLocked = false;
 		  System.out.println("Room is free");
