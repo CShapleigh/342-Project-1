@@ -1,7 +1,9 @@
+import java.util.ArrayList;
 public class Manager extends Thread implements Employee {
 
   public boolean atWork;
-  public Team team;
+  public ArrayList<Team> teams;
+
   public int managerID;
 
   public Manager(int managerID) {
@@ -9,17 +11,17 @@ public class Manager extends Thread implements Employee {
     atWork = false;
   }
 
-  public Team myTeam() {
-    return this.team;
+  public ArrayList<Team> myTeam() {
+    return this.teams;
   }
 
   public void setTeam(Team team) {
-    this.team = team;
+    teams.add(team);
   }
 
   public void run() {
     arriveAtWork();
-    //wait for team leads
+    waitForTeamLeadsAtWork();
     beginTimebox("Standup");
     leaveWork();
   }
@@ -37,7 +39,7 @@ public class Manager extends Thread implements Employee {
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
     System.out.println("Whatever format");
-//    obligation.begnTimeBox(this, type);
+//  obligation.begnTimeBox(this, type);
   }
 
   public void endTimeBox() {
@@ -74,6 +76,18 @@ public class Manager extends Thread implements Employee {
       sleep(time);
     } catch (Exception e) {
       System.err.println("Error");
+    }
+  }
+
+  private void waitForTeamLeadsAtWork() {
+    for(Team team : teams) {
+      while(!team.teamLead().inTheBuilding()) {
+        try {
+          wait();
+        } catch (Exception e) {
+          System.err.println("Error");
+        }
+      }
     }
   }
 

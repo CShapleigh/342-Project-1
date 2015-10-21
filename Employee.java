@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public interface Employee {
   void arriveAtWork();
   void leaveWork();
@@ -8,7 +9,7 @@ public interface Employee {
   boolean inTheBuilding();
   void askQuestion();
   boolean answerQuestion();
-  Team myTeam();
+  ArrayList<Team> myTeam();
   void setTeam(Team team);
   boolean isTeamLead();
   void threadSleep(long time);

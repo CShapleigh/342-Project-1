@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.ArrayList;
 
 public class Developer extends Thread implements Employee {
 
@@ -20,8 +21,10 @@ public class Developer extends Thread implements Employee {
 
   }
 
-  public Team myTeam() {
-    return this.team;
+  public ArrayList<Team> myTeam() {
+    ArrayList<Team> teamList = new ArrayList<Team>();
+    teamList.add(this.team);
+    return teamList;
   }
 
   public void setTeam(Team team) {
@@ -131,10 +134,10 @@ public class Developer extends Thread implements Employee {
   }
 
   public void waitForEmployees() {
-    while (!myTeam().everyoneArrived()) {
+    while (!myTeam().get(0).everyoneArrived()) {
       try {
         // queue up members of team at the meeting room
-        this.myTeam().roomEntryBarrier.await();
+        myTeam().get(0).roomEntryBarrier.await();
         wait();
       } catch (InterruptedException e) {
         System.out.println(e);
