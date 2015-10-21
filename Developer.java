@@ -145,16 +145,16 @@ public class Developer extends Thread implements Employee {
   }
 
   public void grabRoom(Room room) {
+    if(!this.isLead) {
+      return;
+    }
     // if room is locked, developer will wait outside the room
 
     // if everyone arrives and trying to meet, team leader can enter the
-    if (this.isLead) {
-      waitForEmployees();
-    }
+    waitForEmployees();
 
     // now employees are together; wait for unlocked room
-    if (this.isLead) {
-      while (room.isLocked) {
+      while (Room.isLocked) {
         try {
           wait();
         } catch (InterruptedException e) {
@@ -163,7 +163,6 @@ public class Developer extends Thread implements Employee {
       }
 
       // TODO: enter room
-    }
   }
 
   public boolean isTeamLead() {
