@@ -19,8 +19,11 @@ public class Team {
   }
 
   public void beginDay() {
+    teamManager().threadRun();
     for(Employee teamMember : teamMembers) {
+      if (teamMember instanceof Developer) {
         teamMember.threadRun();
+      }
     }
   }
 
