@@ -18,13 +18,16 @@ public class Team {
     }
   }
 
+  public void managerStartsDay() {
+    teamManager().threadRun();
+  }
+
   public void beginDay() {
     teamManager().threadRun();
     for(Employee teamMember : teamMembers) {
       if (teamMember instanceof Developer) {
         teamMember.threadRun();
       }
-    }
   }
 
   public boolean everyoneArrived() {

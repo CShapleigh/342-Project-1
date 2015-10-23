@@ -47,10 +47,6 @@ public class Manager extends Thread implements Employee {
 
   }
 
-  public void askQuestion() {
-    System.out.println("I shouldn't be asking a question");
-  }
-
   public boolean answerQuestion() {
     return false;
   }
@@ -81,8 +77,9 @@ public class Manager extends Thread implements Employee {
     }
   }
 
+
   public void threadRun() {
-    start();
+//    this.start();
   }
 
   private synchronized void waitForTeamLeadsAtWork() {
