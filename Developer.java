@@ -125,7 +125,7 @@ public class Developer extends Thread implements Employee {
     // call startTimebox
     try {
       currentThread().sleep(1000);
-      currentThread().start();
+//      currentThread().start();
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in employee doWork");
