@@ -15,7 +15,8 @@ public class Company {
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
         Team team = new Team(teamNumber);
         team.addEmployee(manager);
-        for(int employeeID = 0; employeeID < 3; employeeID++) {
+
+        for(int employeeID = 0; employeeID < 4; employeeID++) {
 
           // Semi-random lead creation
           if (employeeID == teamNumber) {
