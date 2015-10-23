@@ -20,8 +20,12 @@ public class Team {
 
 
   public void beginDay() {
-    // manager starts day first
-    teamManager().threadRun();
+    // check to see if manager has already arrived (alive thread)
+    // before starting manager.
+    Manager manager = (Manager) teamManager();
+    if (!manager.isAlive()) {
+      manager.threadRun();
+    }
 
     for(Employee teamMember : teamMembers) {
         if (teamMember instanceof Developer) {
