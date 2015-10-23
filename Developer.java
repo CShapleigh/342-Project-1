@@ -12,7 +12,6 @@ public class Developer extends Thread implements Employee {
   public Team team;
 
   public Developer(int developerID, boolean isLead) {
-    System.out.println("Creating developer " + developerID);
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
@@ -199,16 +198,16 @@ public class Developer extends Thread implements Employee {
 
     // asks questions
     //askQuestion();
-    doWork(Timebox.LUNCH);
+    //doWork(Timebox.LUNCH);
 
     // eat lunch
-    Timebox.startTimebox(this, "LUNCH");
+    //Timebox.startTimebox(this, "LUNCH");
 
     // grabs rom
 
 
     // leaveWork
-    leaveWork();
+    //leaveWork();
 
   }
 

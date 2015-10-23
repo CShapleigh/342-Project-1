@@ -13,14 +13,12 @@ public class Company {
     for(int i = 0; i < numberOfManagers; i++) {
       Employee manager = new Manager(i);
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
-        System.out.println("Creating team " + teamNumber);
         Team team = new Team(teamNumber);
         team.addEmployee(manager);
         for(int employeeID = 0; employeeID < 3; employeeID++) {
 
           // Semi-random lead creation
           if (employeeID == teamNumber) {
-            System.out.println("Create a lead");
             Employee teamLead = new  Developer(teamNumber, true);
             team.addEmployee(teamLead);
           } else {

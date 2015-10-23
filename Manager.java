@@ -79,10 +79,11 @@ public class Manager extends Thread implements Employee {
 
 
   public void threadRun() {
-//    this.start();
+    start();
   }
 
   private synchronized void waitForTeamLeadsAtWork() {
+    System.out.println("Manager " + managerID + " waits for team leads."); //TODO: add time
     for(Team team : teams) {
     Employee test = team.teamLead();
       while(!team.teamLead().inTheBuilding()) {
