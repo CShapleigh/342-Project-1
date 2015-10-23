@@ -1,7 +1,7 @@
-import java.sql.Time;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class Developer extends Thread implements Employee {
 
@@ -10,12 +10,13 @@ public class Developer extends Thread implements Employee {
   public boolean isLead;
   public boolean questionAnswered;
   public Team team;
+  public CountDownLatch arrivalLatch;
 
-  public Developer(int developerID, boolean isLead) {
+  public Developer(int developerID, boolean isLead, CountDownLatch arrivalLatch) {
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
-    atWork = false;
+    this.arrivalLatch = arrivalLatch;
   }
 
 
@@ -37,13 +38,11 @@ public class Developer extends Thread implements Employee {
 
   public void arriveAtWork() {
     // arrives at 8am every day
-    atWork = true;
+    this.atWork = true;
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
 
-    // notify manager upon arrival
-    if (isTeamLead()) {
-      ((Manager)myTeam().get(0).teamManager()).leadArrive();
-    }
+    // manager is awaiting for all developers to arrive
+    this.arrivalLatch.countDown();
   }
 
 

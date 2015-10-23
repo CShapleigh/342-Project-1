@@ -1,17 +1,19 @@
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+
 public class Manager extends Thread implements Employee {
 
   public boolean atWork;
   public ArrayList<Team> teams;
 
   public int managerID;
-  public int teamLeadCount;
+  public CountDownLatch arrivalLatch;
 
-  public Manager(int managerID) {
-    teams = new ArrayList<Team>();
+  public Manager(int managerID, CountDownLatch arrivalLatch) {
+    teams = new ArrayList<>();
     this.managerID  = managerID;
     atWork = false;
-    teamLeadCount = 0;
+    this.arrivalLatch = arrivalLatch;
   }
 
   public ArrayList<Team> myTeam() {
@@ -24,7 +26,13 @@ public class Manager extends Thread implements Employee {
 
   public void run() {
     arriveAtWork();
-    waitForTeamLeadsAtWork();
+
+    try {
+      waitForTeamLeadsAtWork();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     beginTimebox("Standup");
     leaveWork();
   }
@@ -32,10 +40,6 @@ public class Manager extends Thread implements Employee {
   public void arriveAtWork() {
     atWork = true;
     System.out.println("Manager " + managerID + " arrives at work."); //TODO: add time
-  }
-
-  public void leadArrive() {
-    this.teamLeadCount++;
   }
 
   public void leaveWork() {
@@ -88,18 +92,15 @@ public class Manager extends Thread implements Employee {
     start();
   }
 
-  private synchronized void waitForTeamLeadsAtWork() {
-    System.out.println("Manager " + managerID + " waits for team leads."); //TODO: add time
-    for(Team team : teams) {
-      while(teamLeadCount != 4) {
-        try {
-          sleep(1000);
-        } catch (Exception e) {
-          e.printStackTrace();
-          System.err.println("Error in waitForTeamLeadsAtWork");
-        }
-      }
-    }
-  }
 
+  private void waitForTeamLeadsAtWork() throws InterruptedException {
+    // using a latch to await for all developers to arrive
+    System.out.println("Manager " + managerID + " waits for team leads."); //TODO: add time
+    try {
+      arrivalLatch.await();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    System.out.println("Entire team has arrived.");
+  }
 }

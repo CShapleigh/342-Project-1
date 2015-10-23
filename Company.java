@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+
 public class Company {
 
   public int numberOfManagers;
@@ -6,12 +8,15 @@ public class Company {
 
   public Company (String numberOfManagersString) {
     numberOfManagers = Integer.parseInt(numberOfManagersString);
-    teams = new ArrayList<Team>();
+    teams = new ArrayList<>();
   }
 
   public void createDay() {
+    // using a latch to await for all developers to arrive
+    final CountDownLatch arrivalLatch = new CountDownLatch(12);
+
     for(int i = 0; i < numberOfManagers; i++) {
-      Employee manager = new Manager(i);
+      Employee manager = new Manager(i, arrivalLatch);
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
         Team team = new Team(teamNumber);
         team.addEmployee(manager);
@@ -21,10 +26,10 @@ public class Company {
 
           // Semi-random lead creation
           if (employeeID == teamNumber) {
-            Employee teamLead = new  Developer(teamNumber, true);
+            Employee teamLead = new  Developer(teamNumber, true, arrivalLatch);
             team.addEmployee(teamLead);
           } else {
-            Employee normalDeveloper = new  Developer(employeeID, false);
+            Employee normalDeveloper = new  Developer(employeeID, false, arrivalLatch);
             team.addEmployee(normalDeveloper);
           }
         }
