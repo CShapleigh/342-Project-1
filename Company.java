@@ -34,7 +34,6 @@ public class Company {
   }
 
   public void beginDay() {
-    System.out.println("test" + teams.size());
     for(Team team : teams) {
       team.beginDay();
     }

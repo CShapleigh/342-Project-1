@@ -76,7 +76,8 @@ public class Manager extends Thread implements Employee {
     try {
       sleep(time);
     } catch (Exception e) {
-      System.err.println("Error");
+      e.printStackTrace();
+      System.err.println("Error in manager threadSleep");
     }
   }
 
@@ -84,13 +85,15 @@ public class Manager extends Thread implements Employee {
     start();
   }
 
-  private void waitForTeamLeadsAtWork() {
+  private synchronized void waitForTeamLeadsAtWork() {
     for(Team team : teams) {
+    Employee test = team.teamLead();
       while(!team.teamLead().inTheBuilding()) {
         try {
           wait();
         } catch (Exception e) {
-          System.err.println("Error");
+          e.printStackTrace();
+          System.err.println("Error in waitForTeamLeadsAtWork");
         }
       }
     }

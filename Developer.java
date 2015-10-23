@@ -39,7 +39,7 @@ public class Developer extends Thread implements Employee {
   public void arriveAtWork() {
     // arrives at 8am every day
     atWork = true;
-    System.out.println(currentThread().getName() + " arrives at work");
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
   }
 
 
@@ -127,7 +127,8 @@ public class Developer extends Thread implements Employee {
       currentThread().sleep(1000);
       currentThread().start();
     } catch (Exception e) {
-      System.err.println("Error");
+      e.printStackTrace();
+      System.err.println("Error in employee doWork");
     }
   }
 
@@ -180,7 +181,8 @@ public class Developer extends Thread implements Employee {
     try {
       sleep(time);
     } catch (Exception e) {
-      System.err.println("Error");
+      e.printStackTrace();
+      System.err.println("Error in developer threadSleep");
     }
   }
 
@@ -190,14 +192,13 @@ public class Developer extends Thread implements Employee {
   }
 
   public void run() {
-    System.out.println("Developer running");
     // arrive
     arriveAtWork();
 
     // do work
 
     // asks questions
-    askQuestion();
+    //askQuestion();
     doWork(Timebox.LUNCH);
 
     // eat lunch

@@ -56,9 +56,6 @@ public class Team {
 
   public Employee teamLead() {
     for (Employee teamMember : teamMembers) {
-      if (teamMember instanceof Manager) {
-        break;
-      }
       if (teamMember.isTeamLead()) {
         return teamMember;
       }
