@@ -16,6 +16,7 @@ public class Company {
         Team team = new Team(teamNumber);
         team.addEmployee(manager);
 
+        // four developers - one lead
         for(int employeeID = 0; employeeID < 4; employeeID++) {
 
           // Semi-random lead creation

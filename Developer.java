@@ -39,6 +39,11 @@ public class Developer extends Thread implements Employee {
     // arrives at 8am every day
     atWork = true;
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
+
+    // notify manager upon arrival
+    if (isTeamLead()) {
+      ((Manager)myTeam().get(0).teamManager()).leadArrive();
+    }
   }
 
 
