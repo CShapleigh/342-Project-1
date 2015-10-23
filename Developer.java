@@ -42,7 +42,9 @@ public class Developer extends Thread implements Employee {
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
 
     // manager is awaiting for all developers to arrive
-    this.arrivalLatch.countDown();
+    if(isTeamLead()) {
+      this.arrivalLatch.countDown();
+    }
   }
 
 

@@ -49,8 +49,8 @@ public class Manager extends Thread implements Employee {
 
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
-    System.out.println("Whatever format");
-//  obligation.begnTimeBox(this, type);
+    System.out.println("Manager " + managerID + " begins " + type); //TODO: add time
+    obligation.startTimebox(this, type);
   }
 
   public void endTimeBox() {
@@ -102,5 +102,6 @@ public class Manager extends Thread implements Employee {
       e.printStackTrace();
     }
     System.out.println("Entire team has arrived.");
+    beginTimebox("Standup");
   }
 }

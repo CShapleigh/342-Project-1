@@ -13,7 +13,7 @@ public class Company {
 
   public void createDay() {
     // using a latch to await for all developers to arrive
-    final CountDownLatch arrivalLatch = new CountDownLatch(12);
+    final CountDownLatch arrivalLatch = new CountDownLatch(3);
 
     for(int i = 0; i < numberOfManagers; i++) {
       Employee manager = new Manager(i, arrivalLatch);

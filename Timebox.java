@@ -2,15 +2,15 @@ import java.util.Random;
 
 
 public class Timebox {
-  public static final int STANDUP_MINS = 150;
-  public static final int MANAGER_MEETING_MINS = 600;
-  public static final int ANSWER_TIME_MINS = 100;
+  public static final int STANDUP_MS = 150;
+  public static final int MANAGER_LUNCH_AND_MEETING_MS = 600;
+  public static final int ANSWER_TIME_MS = 100;
   public static final int TEN_AM_MEET = 1200;
   public static final int TWO_PM_MEET = 3600;
   public static final int FOUR_PM_MEET = 4800;
   public static final int LUNCH = 2400;
   public static final int FIVE_PM = 5400;
-  public static final int MANAGER_LUNCH_AND_MEETING_LENGTH = 600;
+
 
   public static int fuzzTime(int min, int max) {
     Random r = new Random();
@@ -37,10 +37,10 @@ public class Timebox {
     return timeString;
   }
 
-  public static void startTimebox(Employee employee, String type) {
+  public void startTimebox(Employee employee, String type) {
     switch (type) {
       case "Standup":
-//        standupMeeting(employee);
+        standupMeeting(employee);
         break;
       case "Lunch":
 //        lunchTime(employee);
@@ -59,7 +59,7 @@ public class Timebox {
 
   private void standupMeeting(Employee employee) {
     try {
-      employee.threadSleep(Long.valueOf(STANDUP_MINS * 100));
+      employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
     }
@@ -68,7 +68,7 @@ public class Timebox {
   private void lunchTime(Employee employee) {
     int lunchTime = 0;
     if(employee instanceof Manager) {
-      lunchTime = MANAGER_LUNCH_AND_MEETING_LENGTH;
+      lunchTime = MANAGER_LUNCH_AND_MEETING_MS;
     } else {
       lunchTime = fuzzTime(300, 600);
     }
@@ -81,7 +81,7 @@ public class Timebox {
 
   private void normalMeeting(Employee employee) {
     try {
-      employee.threadSleep(Long.valueOf(MANAGER_LUNCH_AND_MEETING_LENGTH));
+      employee.threadSleep(Long.valueOf(MANAGER_LUNCH_AND_MEETING_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during meeting");
     }
