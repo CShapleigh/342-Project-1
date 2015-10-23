@@ -7,7 +7,6 @@ public interface Employee {
   void doWork(int nextTimebox);
   boolean inTimebox();
   boolean inTheBuilding();
-  void askQuestion();
   boolean answerQuestion();
   ArrayList<Team> myTeam();
   void setTeam(Team team);

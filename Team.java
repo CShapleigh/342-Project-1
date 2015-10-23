@@ -18,10 +18,15 @@ public class Team {
     }
   }
 
+  public void managerStartsDay() {
+    teamManager().threadRun();
+  }
+
   public void beginDay() {
     for(Employee teamMember : teamMembers) {
-        teamMember.threadRun();
+//        teamMember.threadRun();
     }
+    managerStartsDay();
   }
 
   public boolean everyoneArrived() {
