@@ -1,10 +1,13 @@
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.BrokenBarrierException;
 
 public class Developer extends Thread implements Employee {
 
+  public final Lock standUpLock;
   private boolean atWork;
   private int developerID;
   private boolean isLead;
@@ -19,6 +22,7 @@ public class Developer extends Thread implements Employee {
     this.isLead = isLead;
     this.leadArrivalLatch = leadArrivalLatch;
     this.teamMemberArrivalLatch = teamMemberArrivalLatch;
+    this.standUpLock = new ReentrantLock();
   }
 
   // Utility functions
@@ -39,6 +43,9 @@ public class Developer extends Thread implements Employee {
   public boolean inTheBuilding() {
     return atWork;
   }
+  public Lock getStandUpLock() {
+    return standUpLock;
+  }
 
   // Thread utilities
   public void threadSleep(long time) {
@@ -52,10 +59,13 @@ public class Developer extends Thread implements Employee {
   public void threadRun() {
     start();
   }
+  public void threadUnlock() {
+    standUpLock.unlock();
+  }
 
   public void run() {
     arriveAtWork();
-    standUpWait();
+    //standUpWait();
     if (isLead) {
       try {
         waitForEmployees();
@@ -68,7 +78,6 @@ public class Developer extends Thread implements Employee {
     if(isLead) {
       endStandUp();
     }
-
 
     // asks questions
     //askQuestion();
@@ -90,6 +99,7 @@ public class Developer extends Thread implements Employee {
     int arrivalTime = Timebox.fuzzTime(0, 30);
     threadSleep(30);
     this.atWork = true;
+    standUpLock.lock();
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
 
     // manager is awaiting for all developers to arrive
@@ -202,13 +212,13 @@ public class Developer extends Thread implements Employee {
     waitForEmployees();
 
     // now employees are together; wait for unlocked room
-      while (Room.isLocked) {
-        try {
-          wait();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
+      // while (Room.isLocked) {
+      //   try {
+      //     wait();
+      //   } catch (InterruptedException e) {
+      //     e.printStackTrace();
+      //   }
+      // }
 
       // TODO: enter room
   }
@@ -220,10 +230,10 @@ public class Developer extends Thread implements Employee {
     }
   }
 
-  public synchronized void endStandUp() {
+  public void endStandUp() {
     ArrayList<Employee> developers = team.normalDevelopers();
     for (Employee developer : developers) {
-      developer.notify();
+      developer.threadUnlock();
     }
   }
 
@@ -240,7 +250,9 @@ public class Developer extends Thread implements Employee {
 
   private synchronized void standUpWait() {
     try {
-      wait();
+      while (true) {
+        standUpLock.tryLock();
+      }
     } catch (Exception e) {
 
     }

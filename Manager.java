@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.CountDownLatch;
 
 public class Manager extends Thread implements Employee {
@@ -32,6 +33,9 @@ public class Manager extends Thread implements Employee {
   public boolean isTeamLead() {
     return false;
   }
+  public Lock getStandUpLock() {
+    return null;
+  }
 
   // Thread utilities
   public void threadSleep(long time) {
@@ -42,9 +46,11 @@ public class Manager extends Thread implements Employee {
       System.err.println("Error in manager threadSleep");
     }
   }
-
   public void threadRun() {
     start();
+  }
+  public void threadUnlock() {
+
   }
 
   public void run() {
@@ -107,15 +113,15 @@ public class Manager extends Thread implements Employee {
     }
   }
 
-  public synchronized void callStandup() {
+  public void callStandup() {
     for (Team team : teams) {
       team.teamLead().beginTimebox("Standup");
     }
   }
 
-  public synchronized void endStandUp() {
+  public void endStandUp() {
     for (Team team : teams) {
-      team.teamLead().notify();
+      team.teamLead().threadUnlock();
     }
   }
 

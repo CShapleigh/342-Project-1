@@ -1,14 +1,14 @@
+import java.util.concurrent.locks.*;
 public class Room {
-	public static boolean isLocked;
 	public static Team team;
+	public final Lock roomLock;
 
 	public Room() {
-		isLocked= false;
+		roomLock = new ReentrantLock();
 	}
 
-
   public void addTeam(Team team) {
-	  if (!isLocked) {
+	  if (/*!roomLock.isLocked()*/ true) {
 		  lockRoom();
 		  Room.team = team;
 		  System.out.println("Team " + team.teamID + " arrives in room");
@@ -22,15 +22,15 @@ public class Room {
   }
 
   public void lockRoom() {
-	  if (!isLocked) {
-		  isLocked = true;
+	  if (/*!roomLock.isLocked()*/ true) { //or try lock
+		  roomLock.lock();
 		  System.out.println("Room is locked");
 	  }
   }
 
   public void freeRoom() {
-	  if(isLocked) {
-		  isLocked = false;
+	  if(/*roomLock.isLocked()*/true) {
+		  roomLock.unlock();
 		  System.out.println("Room is free");
 		  notifyAll();
 	  }
