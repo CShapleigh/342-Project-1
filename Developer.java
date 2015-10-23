@@ -10,13 +10,15 @@ public class Developer extends Thread implements Employee {
   private boolean isLead;
   private boolean questionAnswered;
   private Team team;
-  private CountDownLatch arrivalLatch;
+  private CountDownLatch leadArrivalLatch;
+  private CountDownLatch teamMemberArrivalLatch;
 
-  public Developer(int developerID, boolean isLead, CountDownLatch arrivalLatch) {
+  public Developer(int developerID, boolean isLead, CountDownLatch leadArrivalLatch, CountDownLatch teamMemberArrivalLatch) {
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
-    this.arrivalLatch = arrivalLatch;
+    this.leadArrivalLatch = leadArrivalLatch;
+    this.teamMemberArrivalLatch = teamMemberArrivalLatch;
   }
 
   // Utility functions
@@ -51,30 +53,60 @@ public class Developer extends Thread implements Employee {
     start();
   }
 
+  public void run() {
+    arriveAtWork();
+    standUpWait();
+    if (isLead) {
+      try {
+        waitForEmployees();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    beginTimebox("Standup");
+    endTimeBox("Standup");
+    if(isLead) {
+      endStandUp();
+    }
+
+
+    // asks questions
+    //askQuestion();
+    //doWork(Timebox.LUNCH);
+
+    // eat lunch
+    //Timebox.startTimebox(this, "LUNCH");
+
+    // grabs rom
+
+
+    // leaveWork
+    //leaveWork();
+
+  }
 
   public void arriveAtWork() {
     // arrives at 8am every day
+    int arrivalTime = Timebox.fuzzTime(0, 30);
+    threadSleep(30);
     this.atWork = true;
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
 
     // manager is awaiting for all developers to arrive
     if(isTeamLead()) {
-      this.arrivalLatch.countDown();
+      this.leadArrivalLatch.countDown();
     }
+    this.teamMemberArrivalLatch.countDown();
   }
 
   public void beginTimebox(String type) {
-    // locks thread for X amount of time
-    //threadSleep();
-
-    // lunchish
-
-    // 4:15
+    Timebox obligation = new Timebox();
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
+    obligation.startTimebox(this, type);
   }
 
-  public void endTimeBox() {
-    // TODO: implement
-    System.out.println("Ending time box");
+  public void endTimeBox(String type) {
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ends " + type); //TODO: add time
   }
 
   public void askQuestion() {
@@ -139,7 +171,7 @@ public class Developer extends Thread implements Employee {
     // call startTimebox
     try {
       currentThread().sleep(1000);
-//      currentThread().start();
+//    currentThread().start();
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in employee doWork");
@@ -147,7 +179,8 @@ public class Developer extends Thread implements Employee {
   }
 
   public void waitForEmployees() {
-    while (!myTeam().get(0).everyoneArrived()) {
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " waits for other members."); //TODO: add time
+    while (!team.everyoneArrived()) {
       try {
         // queue up members of team at the meeting room
         myTeam().get(0).roomEntryBarrier.await();
@@ -165,9 +198,7 @@ public class Developer extends Thread implements Employee {
     if (!this.isLead) {
       return;
     }
-    // if room is locked, developer will wait outside the room
 
-    // if everyone arrives and trying to meet, team leader can enter the
     waitForEmployees();
 
     // now employees are together; wait for unlocked room
@@ -182,26 +213,38 @@ public class Developer extends Thread implements Employee {
       // TODO: enter room
   }
 
-
-  public void run() {
-    // arrive
-    arriveAtWork();
-
-    // do work
-
-    // asks questions
-    //askQuestion();
-    //doWork(Timebox.LUNCH);
-
-    // eat lunch
-    //Timebox.startTimebox(this, "LUNCH");
-
-    // grabs rom
-
-
-    // leaveWork
-    //leaveWork();
-
+  public void callStandup() {
+    ArrayList<Employee> developers = team.normalDevelopers();
+    for (Employee developer : developers) {
+      developer.beginTimebox("Standup");
+    }
   }
+
+  public synchronized void endStandUp() {
+    ArrayList<Employee> developers = team.normalDevelopers();
+    for (Employee developer : developers) {
+      developer.notify();
+    }
+  }
+
+  private void waitForTeamMembersWork() throws InterruptedException {
+    // using a latch to await for all developers to arrive
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " awaits team members."); //TODO: add time
+    try {
+      teamMemberArrivalLatch.await();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    callStandup();
+  }
+
+  private synchronized void standUpWait() {
+    try {
+      wait();
+    } catch (Exception e) {
+
+    }
+  }
+
 
 }

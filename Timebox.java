@@ -43,16 +43,16 @@ public class Timebox {
         standupMeeting(employee);
         break;
       case "Lunch":
-//        lunchTime(employee);
+          lunchTime(employee);
         break;
       case "Ten_AM_Meeting":
-//        normalMeeting(employee);
+          normalMeeting(employee);
         break;
       case "TWO_PM_Meeting":
-//        normalMeeting(employee);
+        normalMeeting(employee);
         break;
       case "Four_PM_Meeting":
-//        standupMeeting(employee);
+        standupMeeting(employee);
         break;
     }
   }

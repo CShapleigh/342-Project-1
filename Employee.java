@@ -3,7 +3,7 @@ public interface Employee {
   void arriveAtWork();
   void leaveWork();
   void beginTimebox(String type);
-  void endTimeBox();
+  void endTimeBox(String type);
   void doWork(int nextTimebox);
   boolean inTimebox();
   boolean inTheBuilding();
@@ -13,4 +13,5 @@ public interface Employee {
   boolean isTeamLead();
   void threadSleep(long time);
   void threadRun();
+  void callStandup();
 }

@@ -73,6 +73,16 @@ public class Team {
     return null;
   }
 
+  public ArrayList<Employee> normalDevelopers() {
+    ArrayList<Employee> developers = new ArrayList<Employee>();
+    for(Employee teamMember : teamMembers) {
+      if (!teamMember.isTeamLead() && !(teamMember instanceof Manager)) {
+          developers.add(teamMember);
+      }
+    }
+    return developers;
+  }
+
   public String getTeamID() {
     return Integer.toString(teamID);
   }

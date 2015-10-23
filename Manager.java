@@ -16,24 +16,60 @@ public class Manager extends Thread implements Employee {
     this.arrivalLatch = arrivalLatch;
   }
 
+  // Utility functions
   public ArrayList<Team> myTeam() {
     return this.teams;
   }
-
   public void setTeam(Team team) {
     teams.add(team);
+  }
+  public boolean inTimebox() {
+      return false;
+  }
+  public boolean inTheBuilding() {
+    return atWork;
+  }
+  public boolean isTeamLead() {
+    return false;
+  }
+
+  // Thread utilities
+  public void threadSleep(long time) {
+    try {
+      sleep(time);
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.err.println("Error in manager threadSleep");
+    }
+  }
+
+  public void threadRun() {
+    start();
   }
 
   public void run() {
     arriveAtWork();
-
     try {
       waitForTeamLeadsAtWork();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
     beginTimebox("Standup");
+    endTimeBox("Standup");
+    endStandUp();
+    doWork(Timebox.TEN_AM_MEET);
+    beginTimebox("Ten_AM_Meeting");
+    endTimeBox("Ten_AM_Meeting");
+    doWork(Timebox.LUNCH);
+    beginTimebox("Lunch");
+    endTimeBox("Lunch");
+    doWork(Timebox.TWO_PM_MEET);
+    beginTimebox("TWO_PM_Meeting");
+    endTimeBox("TWO_PM_Meeting");
+    doWork(Timebox.FOUR_PM_MEET);
+    beginTimebox("FOUR_PM_Meeting");
+    endTimeBox("FOUR_PM_Meeting");
+    doWork(Timebox.FIVE_PM);
     leaveWork();
   }
 
@@ -53,8 +89,8 @@ public class Manager extends Thread implements Employee {
     obligation.startTimebox(this, type);
   }
 
-  public void endTimeBox() {
-
+  public void endTimeBox(String type) {
+    System.out.println("Manager " + managerID + " ends " + type); //TODO: add time
   }
 
   public boolean answerQuestion() {
@@ -62,34 +98,25 @@ public class Manager extends Thread implements Employee {
   }
 
   public void doWork(int nextTimebox) {
-
-  }
-
-  public boolean inTimebox(){
-      return false;
-
-  }
-
-  public boolean inTheBuilding() {
-    return atWork;
-  }
-
-  public boolean isTeamLead() {
-    return false;
-  }
-
-  public void threadSleep(long time) {
     try {
-      sleep(time);
+      currentThread().sleep(1000);
+//    currentThread().start();
     } catch (Exception e) {
       e.printStackTrace();
-      System.err.println("Error in manager threadSleep");
+      System.err.println("Error in manager doWork");
     }
   }
 
+  public synchronized void callStandup() {
+    for (Team team : teams) {
+      team.teamLead().beginTimebox("Standup");
+    }
+  }
 
-  public void threadRun() {
-    start();
+  public synchronized void endStandUp() {
+    for (Team team : teams) {
+      team.teamLead().notify();
+    }
   }
 
 
@@ -102,6 +129,9 @@ public class Manager extends Thread implements Employee {
       e.printStackTrace();
     }
     System.out.println("Entire team has arrived.");
-    beginTimebox("Standup");
+    callStandup();
   }
+
+
+
 }

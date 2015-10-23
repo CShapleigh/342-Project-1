@@ -13,10 +13,12 @@ public class Company {
 
   public void createDay() {
     // using a latch to await for all developers to arrive
-    final CountDownLatch arrivalLatch = new CountDownLatch(3);
+    final CountDownLatch leadArrivalLatch = new CountDownLatch(3);
+    final CountDownLatch teamMemberArrivalLatch = new CountDownLatch(4);
+    final CountDownLatch developersDontCareLatch = new CountDownLatch(0);
 
     for(int i = 0; i < numberOfManagers; i++) {
-      Employee manager = new Manager(i, arrivalLatch);
+      Employee manager = new Manager(i, leadArrivalLatch);
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
         Team team = new Team(teamNumber);
         team.addEmployee(manager);
@@ -26,10 +28,10 @@ public class Company {
 
           // Semi-random lead creation
           if (employeeID == teamNumber) {
-            Employee teamLead = new  Developer(teamNumber, true, arrivalLatch);
+            Employee teamLead = new  Developer(teamNumber, true, leadArrivalLatch, teamMemberArrivalLatch);
             team.addEmployee(teamLead);
           } else {
-            Employee normalDeveloper = new  Developer(employeeID, false, arrivalLatch);
+            Employee normalDeveloper = new  Developer(employeeID, false, developersDontCareLatch, teamMemberArrivalLatch);
             team.addEmployee(normalDeveloper);
           }
         }
