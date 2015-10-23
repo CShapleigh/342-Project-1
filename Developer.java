@@ -1,16 +1,16 @@
 import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.BrokenBarrierException;
 
 public class Developer extends Thread implements Employee {
 
-  public boolean atWork;
-  public int developerID;
-  public boolean isLead;
-  public boolean questionAnswered;
-  public Team team;
-  public CountDownLatch arrivalLatch;
+  private boolean atWork;
+  private int developerID;
+  private boolean isLead;
+  private boolean questionAnswered;
+  private Team team;
+  private CountDownLatch arrivalLatch;
 
   public Developer(int developerID, boolean isLead, CountDownLatch arrivalLatch) {
     this.questionAnswered = true;
@@ -19,22 +19,38 @@ public class Developer extends Thread implements Employee {
     this.arrivalLatch = arrivalLatch;
   }
 
-
+  // Utility functions
   public ArrayList<Team> myTeam() {
     ArrayList<Team> teamList = new ArrayList<Team>();
     teamList.add(this.team);
     return teamList;
   }
-
   public void setTeam(Team team) {
     this.team = team;
   }
-
-
-
   public boolean isTeamLead() {
     return isLead;
   }
+  public boolean inTimebox() {
+    return false;
+  }
+  public boolean inTheBuilding() {
+    return atWork;
+  }
+
+  // Thread utilities
+  public void threadSleep(long time) {
+    try {
+      sleep(time);
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.err.println("Error in developer threadSleep");
+    }
+  }
+  public void threadRun() {
+    start();
+  }
+
 
   public void arriveAtWork() {
     // arrives at 8am every day
@@ -46,7 +62,6 @@ public class Developer extends Thread implements Employee {
       this.arrivalLatch.countDown();
     }
   }
-
 
   public void beginTimebox(String type) {
     // locks thread for X amount of time
@@ -84,17 +99,11 @@ public class Developer extends Thread implements Employee {
   }
 
   public void leaveWork() {
-    // start leaving 4:30/5
-    // project manager
-    if (this.isLead) {
-      if (this.team.developersGone()) {
-        // all other developers on the team are gone -- lead can leave
-        atWork = false;
-      }
-    } else {
-      atWork = false;
+    // start leaving 4:30/5. leads have to wait for their devs to leave first
+    if (this.isLead && this.team.developersGone() || !this.isLead) {
+        this.atWork = false;
+        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " leaves work."); //TODO: add time
     }
-    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " leaves work."); //TODO: add time
   }
 
   public boolean answerQuestion() {
@@ -137,15 +146,6 @@ public class Developer extends Thread implements Employee {
     }
   }
 
-  public boolean inTimebox() {
-    return false;
-  }
-
-  public boolean inTheBuilding() {
-    //
-    return atWork;
-  }
-
   public void waitForEmployees() {
     while (!myTeam().get(0).everyoneArrived()) {
       try {
@@ -182,19 +182,6 @@ public class Developer extends Thread implements Employee {
       // TODO: enter room
   }
 
-  public void threadSleep(long time) {
-    try {
-      sleep(time);
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.err.println("Error in developer threadSleep");
-    }
-  }
-
-
-  public void threadRun() {
-    start();
-  }
 
   public void run() {
     // arrive
