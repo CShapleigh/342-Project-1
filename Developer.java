@@ -86,13 +86,13 @@ public class Developer extends Thread implements Employee {
         beginTimebox("MANAGER_LEAD_STANDUP");
 
         // 2. Lead can now proceed to his own team's standup
-        System.out.println("Lead has finished standup with manager.");
-        System.out.println("Lead goes to standup with team.");
+        System.out.println("Lead "  + team.getTeamID() + Integer.toString(developerID) +  " has finished standup with manager.");
+        System.out.println("Lead "  + team.getTeamID() + Integer.toString(developerID) +  " goes to standup with team.");
 
         try {
           this.team.getDeveloperStandupBarrier().await();
           beginTimebox("LEAD_DEVELOPER_STANDUP");
-          System.out.println("Lead has finished standup with team.");
+          System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " has finished standup with team.");
         } catch (InterruptedException e) {
           e.printStackTrace();
         } catch (BrokenBarrierException e) {
@@ -149,7 +149,7 @@ public class Developer extends Thread implements Employee {
   }
 
   public void leadAwaitsDevelopersForStandup() {
-    System.out.println("Lead awaits devs for standup");
+    System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " awaits devs for standup");
     try {
       this.allDeveloperStandupBarrier.await();
     } catch (InterruptedException e) {

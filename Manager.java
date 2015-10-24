@@ -130,7 +130,7 @@ public class Manager extends Thread implements Employee {
   // Manager needs to have a morning stand up with leads before anything else happens
   // Developers just wait around during this morning standup, until leads are finished
   public void callStandup() {
-    System.out.println("All leads ready. Manager calling standup...");
+    System.out.println("All leads ready. Manager " + managerID + " calling standup...");
     for (Team team : teams) {
       team.teamLead().beginTimebox("MANAGER_LEAD_STANDUP");
     }
