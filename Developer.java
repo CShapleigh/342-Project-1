@@ -115,7 +115,7 @@ public class Developer extends Thread implements Employee {
         // Await on this barrier for lead to finish with manager
         this.team.getDeveloperStandupBarrier().await();
         beginTimebox("LEAD_DEVELOPER_STANDUP");
-        System.out.println("Dev finished standup");
+        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " finished standup");
       } catch (InterruptedException e) {
         e.printStackTrace();
       } catch (BrokenBarrierException e) {
