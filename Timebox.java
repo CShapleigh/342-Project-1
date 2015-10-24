@@ -65,8 +65,6 @@ public class Timebox {
   }
 
   private void managerLeadStandupMeeting(Employee employee) {
-    System.out.println("Starting manager lead standup");
-
     try {
       employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
