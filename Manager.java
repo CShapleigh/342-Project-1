@@ -23,6 +23,7 @@ public class Manager extends Thread implements Employee {
     this.arrivalLatch = arrivalLatch;
     this.questionLock = questionLock;
     this.hasQuestion = hasQuestion;
+    this.employeesWithQuestions = new ArrayList<Employee>();
   }
 
   // Utility functions
