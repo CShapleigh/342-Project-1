@@ -79,34 +79,49 @@ public class Developer extends Thread implements Employee {
   public void run() {
     arriveAtWork();
 
+    // 1. Lead immediately goes to standup with manager
     if (isLead) {
       try {
         // TODO:
-//        beginTimebox("MANAGER_LEAD_STANDUP");
+        this.managerLeadStandupBarrier.await();
+        // 2. Lead can now proceed to his own team's standup
+        System.out.println("Lead has finished standup with manager.");
+        System.out.println("Lead goes to standup with team.");
+        try {
+          this.team.getDeveloperStandupBarrier().await();
+          System.out.println("Lead has finished standup with team.");
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (BrokenBarrierException e) {
+          e.printStackTrace();
+        }
 
-//        waitForEmployees();
       } catch (Exception e) {
         e.printStackTrace();
       }
+
+
+
     } else {
-      // 1. Dev has arrived at work. Doesn't do anything until leads are
-      //    done with standup with manager
+
+      // 1. Dev has arrived at work. Immediately go to standup barrier
+      //    and await for leads
       try {
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ready for standup. Waiting..."); //TODO: add time
-        this.allDeveloperStandupBarrier.await();
+
+        // Await on this barrier for lead to finish with manager
+        this.team.getDeveloperStandupBarrier().await();
         beginTimebox("LEAD_DEVELOPER_STANDUP");
+        System.out.println("Dev finished standup");
       } catch (InterruptedException e) {
         e.printStackTrace();
       } catch (BrokenBarrierException e) {
-        e.printStackTrace();
+        System.out.println("Broken barrier");
       }
 
-      System.out.println("After standup");
-      try {
-        wait();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+
+
+      // TODO: proceed with work day
 
     }
 

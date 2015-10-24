@@ -67,7 +67,9 @@ public class Team {
     }
     return true;
   }
-
+  public CyclicBarrier getDeveloperStandupBarrier() {
+    return developerStandupBarrier;
+  }
 
   public void beginDay() {
     // check to see if manager has already arrived (alive thread)
