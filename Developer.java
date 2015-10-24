@@ -82,13 +82,16 @@ public class Developer extends Thread implements Employee {
     // 1. Lead immediately goes to standup with manager
     if (isLead) {
       try {
-        // TODO:
         this.managerLeadStandupBarrier.await();
+        beginTimebox("MANAGER_LEAD_STANDUP");
+
         // 2. Lead can now proceed to his own team's standup
         System.out.println("Lead has finished standup with manager.");
         System.out.println("Lead goes to standup with team.");
+
         try {
           this.team.getDeveloperStandupBarrier().await();
+          beginTimebox("LEAD_DEVELOPER_STANDUP");
           System.out.println("Lead has finished standup with team.");
         } catch (InterruptedException e) {
           e.printStackTrace();
@@ -161,26 +164,11 @@ public class Developer extends Thread implements Employee {
 
     if (type == "MANAGER_LEAD_STANDUP" && this.isLead) {
       System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
-
-      try {
-        System.out.println("Awaiting lead manager barrier...");
-        this.managerLeadStandupBarrier.await();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (BrokenBarrierException e) {
-        e.printStackTrace();
-      }
-
-
       obligation.startTimebox(this, type);
     } else if (type == "LEAD_TEAM_STANDUP") {
       if (this.isLead) {
         System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
         obligation.startTimebox(this, type);
-
-
-
-
       } else {
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
         obligation.startTimebox(this, type);
