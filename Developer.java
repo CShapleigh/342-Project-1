@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.BrokenBarrierException;
@@ -15,14 +16,19 @@ public class Developer extends Thread implements Employee {
   private Team team;
   private CountDownLatch leadArrivalLatch;
   private CountDownLatch teamMemberArrivalLatch;
+  private CyclicBarrier managerLeadStandupBarrier;
 
-  public Developer(int developerID, boolean isLead, CountDownLatch leadArrivalLatch, CountDownLatch teamMemberArrivalLatch) {
+  public Developer(int developerID, boolean isLead,
+                   CountDownLatch leadArrivalLatch,
+                   CountDownLatch teamMemberArrivalLatch,
+                   CyclicBarrier managerLeadStandupBarrier) {
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
     this.leadArrivalLatch = leadArrivalLatch;
     this.teamMemberArrivalLatch = teamMemberArrivalLatch;
     this.standUpLock = new ReentrantLock();
+    this.managerLeadStandupBarrier = managerLeadStandupBarrier;
   }
 
   // Utility functions
@@ -111,6 +117,18 @@ public class Developer extends Thread implements Employee {
 
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
+
+    if (type == "Standup" && this.isLead) {
+      try {
+        System.out.println("Awaiting lead manager barrier...");
+        this.managerLeadStandupBarrier.await();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (BrokenBarrierException e) {
+        e.printStackTrace();
+      }
+    }
+
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
     obligation.startTimebox(this, type);
   }
@@ -224,6 +242,7 @@ public class Developer extends Thread implements Employee {
   }
 
   public void callStandup() {
+    // Leads meet - get unlocked - start a standup with team
     ArrayList<Employee> developers = team.normalDevelopers();
     for (Employee developer : developers) {
       developer.beginTimebox("Standup");
@@ -245,9 +264,19 @@ public class Developer extends Thread implements Employee {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    callStandup();
+
+    // Developers should wait until leads have had their standup with the manager
+    if (this.isLead) {
+      System.out.println("Have morning stand up with manager ");
+    } else {
+      // wait around until that stand up is over
+      System.out.printf("Not lead... waiting around");
+    }
+
   }
 
+  // For both standups
+  // Lead
   private synchronized void standUpWait() {
     try {
       while (true) {

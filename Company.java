@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 public class Company {
 
@@ -17,6 +18,16 @@ public class Company {
     final CountDownLatch teamMemberArrivalLatch = new CountDownLatch(4);
     final CountDownLatch developersDontCareLatch = new CountDownLatch(0);
 
+    // Use a CyclicBarrier to await for standup
+    final CyclicBarrier leadManagerCyclicBarrier = new CyclicBarrier(3, new Runnable() {
+      @Override
+      public void run() {
+        System.out.println("All leads are ready for the standup");
+
+        // TODO: start countdown of standup time
+      }
+    });
+
     for(int i = 0; i < numberOfManagers; i++) {
       Employee manager = new Manager(i, leadArrivalLatch);
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
@@ -28,10 +39,10 @@ public class Company {
 
           // Semi-random lead creation
           if (employeeID == teamNumber) {
-            Employee teamLead = new  Developer(teamNumber, true, leadArrivalLatch, teamMemberArrivalLatch);
+            Employee teamLead = new  Developer(teamNumber, true, leadArrivalLatch, teamMemberArrivalLatch, leadManagerCyclicBarrier);
             team.addEmployee(teamLead);
           } else {
-            Employee normalDeveloper = new  Developer(employeeID, false, developersDontCareLatch, teamMemberArrivalLatch);
+            Employee normalDeveloper = new  Developer(employeeID, false, developersDontCareLatch, teamMemberArrivalLatch, leadManagerCyclicBarrier);
             team.addEmployee(normalDeveloper);
           }
         }
