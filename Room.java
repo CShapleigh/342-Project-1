@@ -7,9 +7,11 @@ public class Room {
 		roomLock = new ReentrantLock();
 	}
 
+	//When addTeam is called, attempts to lock the room
   public void addTeam(Team team) {
-	  if (/*!roomLock.isLocked()*/ true) {
-		  lockRoom();
+	  roomLock.lock();
+	  try{
+		  System.out.println("Room is locked");
 		  Room.team = team;
 		  System.out.println("Team " + team.teamID + " arrives in room");
 		  for (Employee teamMember : team.teamMembers) {
@@ -18,21 +20,10 @@ public class Room {
 				//arrive at once.
 			  teamMember.beginTimebox("Standup");
 		  }
-	  }
-  }
-
-  public void lockRoom() {
-	  if (/*!roomLock.isLocked()*/ true) { //or try lock
-		  roomLock.lock();
-		  System.out.println("Room is locked");
-	  }
-  }
-
-  public void freeRoom() {
-	  if(/*roomLock.isLocked()*/true) {
+	  } finally {
 		  roomLock.unlock();
-		  System.out.println("Room is free");
-		  notifyAll();
+		  System.out.println("Room is open");
+		  //notifyAll();
 	  }
   }
 }
