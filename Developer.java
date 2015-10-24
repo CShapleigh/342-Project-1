@@ -57,7 +57,6 @@ public class Developer extends Thread implements Employee {
   public boolean inTheBuilding() {
     return atWork;
   }
-
   // Thread utilities
   public void threadSleep(long time) {
     try {
@@ -103,16 +102,13 @@ public class Developer extends Thread implements Employee {
         e.printStackTrace();
       }
 
-
-
+      // Regular developer
     } else {
 
       // 1. Dev has arrived at work. Immediately go to standup barrier
-      //    and await for leads
+      //    and await for leads to finish with manager
       try {
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ready for standup. Waiting..."); //TODO: add time
-
-        // Await on this barrier for lead to finish with manager
         this.team.getDeveloperStandupBarrier().await();
         beginTimebox("LEAD_DEVELOPER_STANDUP");
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " finished standup");
@@ -125,9 +121,7 @@ public class Developer extends Thread implements Employee {
 
 
       // TODO: proceed with work day
-
     }
-
   }
 
   public void arriveAtWork() {
