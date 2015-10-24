@@ -60,12 +60,6 @@ public class Manager extends Thread implements Employee {
   public void threadRun() {
     start();
   }
-  public void threadUnlock() {
-
-  }
-  public void threadLock() {
-
-  }
 
   public void run() {
     arriveAtWork();

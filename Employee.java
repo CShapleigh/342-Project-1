@@ -15,6 +15,4 @@ public interface Employee {
   void threadSleep(long time);
   void threadRun();
   void callStandup();
-  Lock getStandUpLock();
-  void threadUnlock();
 }

@@ -7,7 +7,6 @@ import java.util.concurrent.BrokenBarrierException;
 
 public class Developer extends Thread implements Employee {
 
-  public final Lock standUpLock;
   private boolean atWork;
   private int developerID;
   private boolean isLead;
@@ -32,7 +31,6 @@ public class Developer extends Thread implements Employee {
     this.isLead = isLead;
     this.leadArrivalLatch = leadArrivalLatch;
     this.teamMemberArrivalLatch = teamMemberArrivalLatch;
-    this.standUpLock = new ReentrantLock();
     this.managerLeadStandupBarrier = managerLeadStandupBarrier;
     this.questionLock = questionLock;
     this.hasQuestion = hasQuestion;
@@ -59,9 +57,6 @@ public class Developer extends Thread implements Employee {
   public boolean inTheBuilding() {
     return atWork;
   }
-  public Lock getStandUpLock() {
-    return standUpLock;
-  }
 
   // Thread utilities
   public void threadSleep(long time) {
@@ -79,10 +74,6 @@ public class Developer extends Thread implements Employee {
   @Override
   public void callStandup() {
 
-  }
-
-  public void threadUnlock() {
-    standUpLock.unlock();
   }
 
   public void run() {
@@ -126,8 +117,6 @@ public class Developer extends Thread implements Employee {
     int arrivalTime = Timebox.fuzzTime(0, 30);
     threadSleep(arrivalTime);
     this.atWork = true;
-    standUpLock.lock();
-
     if (this.isLead) {
       System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
     } else {
@@ -294,7 +283,7 @@ public class Developer extends Thread implements Employee {
   public void endStandUp() {
     ArrayList<Employee> developers = team.normalDevelopers();
     for (Employee developer : developers) {
-      developer.threadUnlock();
+      //TODO: stuff
     }
   }
 
