@@ -44,7 +44,17 @@ public class Company {
     for(int i = 0; i < numberOfManagers; i++) {
       Employee manager = new Manager(i, leadArrivalLatch, questionLock, hasQuestion);
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
-        Team team = new Team(teamNumber);
+
+
+        // Create a new morning standup barrier for each team
+        CyclicBarrier leadDeveloperStandupBarrier = new CyclicBarrier(4, new Runnable() {
+          @Override
+          public void run() {
+            System.out.println("Leads and developers can begin standup now");
+          }
+        });
+
+        Team team = new Team(teamNumber, leadDeveloperStandupBarrier);
         team.addEmployee(manager);
 
         // four developers - one lead
