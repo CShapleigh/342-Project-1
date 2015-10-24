@@ -69,9 +69,6 @@ public class Manager extends Thread implements Employee {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    beginTimebox("Standup");
-    endTimeBox("Standup");
-    endStandUp();
     doWork(Timebox.TEN_AM_MEET);
     beginTimebox("Ten_AM_Meeting");
     endTimeBox("Ten_AM_Meeting");
