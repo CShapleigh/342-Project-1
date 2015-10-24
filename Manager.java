@@ -118,7 +118,7 @@ public class Manager extends Thread implements Employee {
   public void callStandup() {
     System.out.println("Manager calling standup");
     for (Team team : teams) {
-      team.teamLead().beginTimebox("Standup");
+      team.teamLead().beginTimebox("MANAGER_LEAD_STANDUP");
     }
   }
 

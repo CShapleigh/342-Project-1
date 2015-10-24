@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.concurrent.CyclicBarrier;
 
 
 public class Timebox {
@@ -39,7 +40,10 @@ public class Timebox {
 
   public void startTimebox(Employee employee, String type) {
     switch (type) {
-      case "Standup":
+      case "MANAGER_LEAD_STANDUP":
+        managerLeadStandupMeeting(employee);
+        break;
+      case "LEAD_TEAM_STANDUP":
         standupMeeting(employee);
         break;
       case "Lunch":
@@ -57,12 +61,35 @@ public class Timebox {
     }
   }
 
-  private void standupMeeting(Employee employee) {
+  private void managerLeadStandupMeeting(Employee employee) {
+//    System.out.println("Starting manager lead standup");
+
     try {
       employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
     }
+
+    // TODO: now need to trigger standup of devs
+    ((Developer)employee).leadAwaitsDevelopersForStandup();
+  }
+
+  private void standupMeeting(Employee employee) {
+    if ((employee instanceof Developer) && employee.isTeamLead()) {
+      System.out.println("Lead starting standup");
+    } else if (employee instanceof Manager) {
+      System.out.println("Manager starting standup");
+    } else {
+      System.out.println("Regular dev starting standup");
+    }
+
+    try {
+      employee.threadSleep(Long.valueOf(STANDUP_MS));
+    } catch (Exception e) {
+      System.err.println("Error waiting during standup");
+    }
+
+    System.out.println("Finished timebox");
   }
 
   private void lunchTime(Employee employee) {
