@@ -65,16 +65,13 @@ public class Timebox {
   }
 
   private void managerLeadStandupMeeting(Employee employee) {
-//    System.out.println("Starting manager lead standup");
+    System.out.println("Starting manager lead standup");
 
     try {
       employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
     }
-
-    // TODO: now need to trigger standup of devs
-    ((Developer)employee).leadAwaitsDevelopersForStandup();
   }
 
   private void standupMeeting(Employee employee) {
