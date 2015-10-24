@@ -54,12 +54,23 @@ public class Timebox {
       case "Four_PM_Meeting":
         standupMeeting(employee);
         break;
+      case "Question_Answer":
+        answerQuestion(employee);
+        break;
     }
   }
 
   private void standupMeeting(Employee employee) {
     try {
       employee.threadSleep(Long.valueOf(STANDUP_MS));
+    } catch (Exception e) {
+      System.err.println("Error waiting during standup");
+    }
+  }
+
+  private void answerQuestion(Employee employee) {
+    try {
+      employee.threadSleep(Long.valueOf(ANSWER_TIME_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
     }

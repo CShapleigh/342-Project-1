@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.*;
+import java.util.concurrent.TimeUnit;
 
 public class Manager extends Thread implements Employee {
 
@@ -9,12 +11,18 @@ public class Manager extends Thread implements Employee {
 
   public int managerID;
   public CountDownLatch arrivalLatch;
+  public Lock questionLock;
+  public Condition hasQuestion;
+  public ArrayList<Employee> employeesWithQuestions;
 
-  public Manager(int managerID, CountDownLatch arrivalLatch) {
+
+  public Manager(int managerID, CountDownLatch arrivalLatch, Lock questionLock, Condition hasQuestion) {
     teams = new ArrayList<>();
     this.managerID  = managerID;
     atWork = false;
     this.arrivalLatch = arrivalLatch;
+    this.questionLock = questionLock;
+    this.hasQuestion = hasQuestion;
   }
 
   // Utility functions
@@ -36,6 +44,9 @@ public class Manager extends Thread implements Employee {
   public Lock getStandUpLock() {
     return null;
   }
+  public void addQuestioningEmployee(Employee employee) {
+    employeesWithQuestions.add(employee);
+  }
 
   // Thread utilities
   public void threadSleep(long time) {
@@ -50,6 +61,9 @@ public class Manager extends Thread implements Employee {
     start();
   }
   public void threadUnlock() {
+
+  }
+  public void threadLock() {
 
   }
 
@@ -99,17 +113,23 @@ public class Manager extends Thread implements Employee {
     System.out.println("Manager " + managerID + " ends " + type); //TODO: add time
   }
 
-  public boolean answerQuestion() {
-    return false;
+  public void answerQuestion(Employee employee) {
+    employee.beginTimebox("Question_Answer");
+    beginTimebox("Question_Answer");
   }
 
   public void doWork(int nextTimebox) {
+    questionLock.lock();
     try {
-      currentThread().sleep(1000);
-//    currentThread().start();
+      hasQuestion.await(nextTimebox, TimeUnit.MILLISECONDS);
+      for (Employee developer : employeesWithQuestions) {
+        answerQuestion(developer);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in manager doWork");
+    } finally {
+      questionLock.unlock();
     }
   }
 
@@ -124,7 +144,7 @@ public class Manager extends Thread implements Employee {
 
   public void endStandUp() {
     for (Team team : teams) {
-      team.teamLead().threadUnlock();
+      //team.teamLead().threadUnlock();
     }
   }
 

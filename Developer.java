@@ -2,8 +2,7 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.*;
 import java.util.concurrent.BrokenBarrierException;
 
 public class Developer extends Thread implements Employee {
@@ -17,11 +16,15 @@ public class Developer extends Thread implements Employee {
   private CountDownLatch leadArrivalLatch;
   private CountDownLatch teamMemberArrivalLatch;
   private CyclicBarrier managerLeadStandupBarrier;
+  public Lock questionLock;
+  public Condition hasQuestion;
 
   public Developer(int developerID, boolean isLead,
                    CountDownLatch leadArrivalLatch,
                    CountDownLatch teamMemberArrivalLatch,
-                   CyclicBarrier managerLeadStandupBarrier) {
+                   CyclicBarrier managerLeadStandupBarrier,
+                   Lock questionLock,
+                   Condition hasQuestion) {
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
@@ -29,6 +32,8 @@ public class Developer extends Thread implements Employee {
     this.teamMemberArrivalLatch = teamMemberArrivalLatch;
     this.standUpLock = new ReentrantLock();
     this.managerLeadStandupBarrier = managerLeadStandupBarrier;
+    this.questionLock = questionLock;
+    this.hasQuestion = hasQuestion;
   }
 
   // Utility functions
@@ -72,18 +77,18 @@ public class Developer extends Thread implements Employee {
   public void run() {
     arriveAtWork();
     //standUpWait();
-    if (isLead) {
-      try {
-        waitForEmployees();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-    beginTimebox("Standup");
-    endTimeBox("Standup");
-    if(isLead) {
-      endStandUp();
-    }
+    // if (isLead) {
+    //   try {
+    //     waitForEmployees();
+    //   } catch (Exception e) {
+    //     e.printStackTrace();
+    //   }
+    // }
+    //beginTimebox("Standup");
+    //endTimeBox("Standup");
+    // if (isLead) {
+    //   endStandUp();
+    // }
 
     // asks questions
     //askQuestion();
@@ -103,7 +108,7 @@ public class Developer extends Thread implements Employee {
   public void arriveAtWork() {
     // arrives at 8am every day
     int arrivalTime = Timebox.fuzzTime(0, 30);
-    threadSleep(30);
+    threadSleep(arrivalTime);
     this.atWork = true;
     standUpLock.lock();
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " arrives at work."); //TODO: add time
@@ -118,16 +123,16 @@ public class Developer extends Thread implements Employee {
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
 
-    if (type == "Standup" && this.isLead) {
-      try {
-        System.out.println("Awaiting lead manager barrier...");
-        this.managerLeadStandupBarrier.await();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (BrokenBarrierException e) {
-        e.printStackTrace();
-      }
-    }
+    // if (type == "Standup" && this.isLead) {
+    //   try {
+    //     System.out.println("Awaiting lead manager barrier...");
+    //     this.managerLeadStandupBarrier.await();
+    //   } catch (InterruptedException e) {
+    //     e.printStackTrace();
+    //   } catch (BrokenBarrierException e) {
+    //     e.printStackTrace();
+    //   }
+    //}
 
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
     obligation.startTimebox(this, type);
@@ -138,23 +143,10 @@ public class Developer extends Thread implements Employee {
   }
 
   public void askQuestion() {
-    // TODO: finish
-    // any point during day a dev (and leads) can ask a question
-    this.questionAnswered = false;
-
-    if (this.isLead) {
-      // lead has to go to manager -- going to wait 10 minutes
-      this.team.teamManager().answerQuestion();
+    if (isTeamLead()) {
+      team.teamManager().answerQuestion(this);
     } else {
-      // dev has to ask lead the question
-      this.team.teamLead().answerQuestion();
-      try {
-        while (this.team.teamLead().answerQuestion() == false) {
-          wait();
-        }
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+      team.teamLead().answerQuestion(this);
     }
   }
 
@@ -166,31 +158,26 @@ public class Developer extends Thread implements Employee {
     }
   }
 
-  public boolean answerQuestion() {
+  public void answerQuestion(Employee employee) {
     // TODO: finish
 
     // only lead and mangers
     if (this.isLead) {
-      // 50% chance that leads can
-      Random random = new Random(2);
-      if (random.nextInt() == 0) {
-        // answer immediately
-        return true;
-      } else {
-        // goes to team manager with current question
-        try {
-          while (this.team.teamManager().answerQuestion() == false) {
-            wait();
-          }
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
+      Random r = new Random();
+      int choice = r.nextInt(2);
+      if(choice==0) {
+        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " immediately answers question."); //TODO: add time
+        return;
       }
-      return false;
     }
-
-    this.questionAnswered = true;
-    return true;
+    questionLock.lock();
+    try {
+      hasQuestion.notify();
+    } catch (Exception e) {
+      System.err.println("Error in developer answerquestion.");
+    } finally {
+      questionLock.unlock();
+    }
   }
 
   public void doWork(int nextTimebox) {
