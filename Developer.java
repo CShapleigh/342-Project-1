@@ -222,15 +222,20 @@ public class Developer extends Thread implements Employee {
   }
 
   public void doWork(int nextTimebox) {
-    //wait around, ask a question, if lead, answer if possible
-
-    // call startTimebox
     try {
-      currentThread().sleep(1000);
-//    currentThread().start();
+      currentThread().sleep(nextTimebox);
+      randomizeQuestion();
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in employee doWork");
+    }
+  }
+
+  private void randomizeQuestion() {
+    Random r = new Random();
+    int choice = r.nextInt(16);
+    if (choice==0) {
+      askQuestion();
     }
   }
 

@@ -22,6 +22,7 @@ public class Company {
     final CountDownLatch developersDontCareLatch = new CountDownLatch(0);
     final Lock questionLock = new ReentrantLock();
     final Condition hasQuestion = questionLock.newCondition();
+    final CompanyClock companyClock = new CompanyClock();
 
     // Use a CyclicBarrier to await for standup
     final CyclicBarrier leadsReadyForTeamStandupBarrier = new CyclicBarrier(3, new Runnable() {
@@ -80,6 +81,7 @@ public class Company {
     for(Team team : teams) {
       team.beginDay();
     }
+    new CompanyClock().start();
   }
 
 }
