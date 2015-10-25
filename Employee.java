@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
 public interface Employee {
   void arriveAtWork();
   void leaveWork();
@@ -14,5 +13,4 @@ public interface Employee {
   boolean isTeamLead();
   void threadSleep(long time);
   void threadRun();
-  void callStandup();
 }

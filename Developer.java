@@ -57,7 +57,6 @@ public class Developer extends Thread implements Employee {
   public boolean inTheBuilding() {
     return atWork;
   }
-  // Thread utilities
   public void threadSleep(long time) {
     try {
       sleep(time);
@@ -68,11 +67,6 @@ public class Developer extends Thread implements Employee {
   }
   public void threadRun() {
     start();
-  }
-
-  @Override
-  public void callStandup() {
-
   }
 
   public void run() {
@@ -170,7 +164,6 @@ public class Developer extends Thread implements Employee {
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
         obligation.startTimebox(this, type);
       }
-
     }
 
   }
@@ -229,8 +222,6 @@ public class Developer extends Thread implements Employee {
       System.err.println("Error in employee doWork");
     }
   }
-
-
 
 
 }

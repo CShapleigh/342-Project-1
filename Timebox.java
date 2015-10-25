@@ -1,6 +1,4 @@
 import java.util.Random;
-import java.util.concurrent.CyclicBarrier;
-
 
 public class Timebox {
   public static final int STANDUP_MS = 150;

@@ -48,8 +48,6 @@ public class Manager extends Thread implements Employee {
   public void addQuestioningEmployee(Employee employee) {
     employeesWithQuestions.add(employee);
   }
-
-  // Thread utilities
   public void threadSleep(long time) {
     try {
       sleep(time);
@@ -132,18 +130,7 @@ public class Manager extends Thread implements Employee {
     for (Team team : teams) {
       team.teamLead().beginTimebox("MANAGER_LEAD_STANDUP");
     }
-
-//    for (Team team : teams) {
-//      ((Developer)team.teamLead()).leadAwaitsDevelopersForStandup();
-//    }
   }
-
-  public void endStandUp() {
-    for (Team team : teams) {
-      //team.teamLead().threadUnlock();
-    }
-  }
-
 
   private void waitForTeamLeadsAtWork() throws InterruptedException {
     // using a latch to await for all developers to arrive
@@ -156,7 +143,5 @@ public class Manager extends Thread implements Employee {
     System.out.println("Entire team has arrived.");
     callStandup();
   }
-
-
 
 }
