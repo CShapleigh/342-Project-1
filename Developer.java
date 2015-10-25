@@ -125,6 +125,7 @@ public class Developer extends Thread implements Employee {
 
       // TODO: proceed with work day
     }
+    askQuestion();
   }
 
   public void arriveAtWork() {
@@ -173,6 +174,9 @@ public class Developer extends Thread implements Employee {
 
     }
 
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
+    obligation.startTimebox(this, type);
+
   }
 
   public void endTimeBox(String type) {
@@ -180,10 +184,11 @@ public class Developer extends Thread implements Employee {
   }
 
   public void askQuestion() {
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " asks a question.");
     if (isTeamLead()) {
-      team.teamManager().answerQuestion(this);
+      answerQuestion(this, true);
     } else {
-      team.teamLead().answerQuestion(this);
+      team.teamLead().answerQuestion(this, false);
     }
   }
 
@@ -195,17 +200,19 @@ public class Developer extends Thread implements Employee {
     }
   }
 
-  public void answerQuestion(Employee employee) {
-    // TODO: finish
-
-    // only lead and mangers
-    if (this.isLead) {
+  public void answerQuestion(Employee employee, boolean skipChance) {
+    if (this.isLead && skipChance) {
       Random r = new Random();
       int choice = r.nextInt(2);
-      if(choice==0) {
+      if (choice==0) {
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " immediately answers question."); //TODO: add time
         return;
       }
+    }
+    Manager manager = (Manager) team.teamManager();
+    manager.addQuestioningEmployee(this);
+    if (this != employee) {
+      manager.addQuestioningEmployee(employee);
     }
     questionLock.lock();
     try {

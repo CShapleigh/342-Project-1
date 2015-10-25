@@ -8,7 +8,7 @@ public interface Employee {
   void doWork(int nextTimebox);
   boolean inTimebox();
   boolean inTheBuilding();
-  void answerQuestion(Employee employee);
+  void answerQuestion(Employee employee, boolean skipChance);
   ArrayList<Team> myTeam();
   void setTeam(Team team);
   boolean isTeamLead();

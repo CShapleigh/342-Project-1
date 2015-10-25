@@ -105,7 +105,7 @@ public class Manager extends Thread implements Employee {
     System.out.println("Manager " + managerID + " ends " + type); //TODO: add time
   }
 
-  public void answerQuestion(Employee employee) {
+  public void answerQuestion(Employee employee, boolean skipChance) {
     employee.beginTimebox("Question_Answer");
     beginTimebox("Question_Answer");
   }
@@ -115,7 +115,7 @@ public class Manager extends Thread implements Employee {
     try {
       hasQuestion.await(nextTimebox, TimeUnit.MILLISECONDS);
       for (Employee developer : employeesWithQuestions) {
-        answerQuestion(developer);
+        answerQuestion(developer, false);
       }
     } catch (Exception e) {
       e.printStackTrace();
