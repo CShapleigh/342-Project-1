@@ -144,17 +144,6 @@ public class Developer extends Thread implements Employee {
     this.teamMemberArrivalLatch.countDown();
   }
 
-  public void leadAwaitsDevelopersForStandup() {
-    System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " awaits devs for standup");
-    try {
-      this.allDeveloperStandupBarrier.await();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (BrokenBarrierException e) {
-      e.printStackTrace();
-    }
-  }
-
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
 
