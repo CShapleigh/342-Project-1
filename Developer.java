@@ -18,6 +18,7 @@ public class Developer extends Thread implements Employee {
   public Lock questionLock;
   public Condition hasQuestion;
   private CyclicBarrier allDeveloperStandupBarrier;
+  private Room standUpRoom;
 
   public Developer(int developerID, boolean isLead,
                    CountDownLatch leadArrivalLatch,
@@ -25,7 +26,8 @@ public class Developer extends Thread implements Employee {
                    CyclicBarrier managerLeadStandupBarrier,
                    Lock questionLock,
                    Condition hasQuestion,
-                   CyclicBarrier allDeveloperStandupBarrier) {
+                   CyclicBarrier allDeveloperStandupBarrier,
+                   Room standUpRoom) {
     this.questionAnswered = true;
     this.developerID = developerID;
     this.isLead = isLead;
@@ -34,6 +36,7 @@ public class Developer extends Thread implements Employee {
     this.managerLeadStandupBarrier = managerLeadStandupBarrier;
     this.questionLock = questionLock;
     this.hasQuestion = hasQuestion;
+    this.standUpRoom = standUpRoom;
 
     // TODO: testing this - not sure if right yet
     this.allDeveloperStandupBarrier = allDeveloperStandupBarrier;
@@ -84,8 +87,9 @@ public class Developer extends Thread implements Employee {
 
         try {
           this.team.getDeveloperStandupBarrier().await();
-          beginTimebox("LEAD_DEVELOPER_STANDUP");
-          System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " has finished standup with team.");
+          standUpRoom.addTeam(this.team);
+          //beginTimebox("LEAD_DEVELOPER_STANDUP");
+          //System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " has finished standup with team.");
         } catch (InterruptedException e) {
           e.printStackTrace();
         } catch (BrokenBarrierException e) {

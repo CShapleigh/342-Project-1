@@ -7,10 +7,12 @@ public class Company {
 
   public int numberOfManagers;
   ArrayList<Team> teams;
+  public Room standUpRoom;
 
   public Company (String numberOfManagersString) {
     numberOfManagers = Integer.parseInt(numberOfManagersString);
     teams = new ArrayList<>();
+    standUpRoom = new Room();
   }
 
   public void createDay() {
@@ -62,10 +64,10 @@ public class Company {
 
           // Semi-random lead creation
           if (employeeID == teamNumber) {
-            Employee teamLead = new  Developer(teamNumber, true, leadArrivalLatch, teamMemberArrivalLatch, leadsReadyForTeamStandupBarrier,  questionLock, hasQuestion, allDeveloperStandupBarrier);
+            Employee teamLead = new  Developer(teamNumber, true, leadArrivalLatch, teamMemberArrivalLatch, leadsReadyForTeamStandupBarrier,  questionLock, hasQuestion, allDeveloperStandupBarrier, standUpRoom);
             team.addEmployee(teamLead);
           } else {
-            Employee normalDeveloper = new  Developer(employeeID, false, developersDontCareLatch, teamMemberArrivalLatch, leadsReadyForTeamStandupBarrier, questionLock, hasQuestion, allDeveloperStandupBarrier);
+            Employee normalDeveloper = new  Developer(employeeID, false, developersDontCareLatch, teamMemberArrivalLatch, leadsReadyForTeamStandupBarrier, questionLock, hasQuestion, allDeveloperStandupBarrier, standUpRoom);
             team.addEmployee(normalDeveloper);
           }
         }

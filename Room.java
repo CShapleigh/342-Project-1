@@ -18,10 +18,13 @@ public class Room {
 				//I think we should move the print statement here, so it's each team
 				//member arrives in the room?? Not sure though. He does say they all
 				//arrive at once.
-			  teamMember.beginTimebox("Standup");
+			  if(!(teamMember instanceof Manager)){
+				  teamMember.beginTimebox("LEAD_TEAM_STANDUP");
+			  }
 		  }
 	  } finally {
 		  roomLock.unlock();
+		  System.out.println("Team " + team.teamID + " has finished its standup");
 		  System.out.println("Room is open");
 		  //notifyAll();
 	  }
