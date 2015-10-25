@@ -225,9 +225,13 @@ public class Developer extends Thread implements Employee {
   }
 
   public void doWork(int nextTimebox) {
+    int currentTime = CompanyClock.getCurrentTime();
+    int firstSlice = Timebox.fuzzTime(currentTime, nextTimebox);
+    int secondSlice = nextTimebox - firstSlice;
     try {
-      currentThread().sleep(nextTimebox);
+      currentThread().sleep(firstSlice);
       randomizeQuestion();
+      currentThread().sleep(secondSlice);
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in employee doWork");

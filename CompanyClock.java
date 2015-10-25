@@ -1,9 +1,9 @@
 public class CompanyClock extends Thread {
-  protected int currentTime;
+  protected static int currentTime;
 
   public void run() {
     while(true) {
-      currentTime++;
+      CompanyClock.currentTime++;
       try {
         sleep(1);
       } catch (Exception e) {
@@ -12,7 +12,7 @@ public class CompanyClock extends Thread {
     }
   }
 
-  public int getCurrentTime() {
+  public static int getCurrentTime() {
     return currentTime;
   }
 
