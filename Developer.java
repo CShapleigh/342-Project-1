@@ -186,9 +186,9 @@ public class Developer extends Thread implements Employee {
   public void askQuestion() {
     System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " asks a question.");
     if (isTeamLead()) {
-      answerQuestion(this, true);
+      answerQuestion(this, false);
     } else {
-      team.teamLead().answerQuestion(this, false);
+      team.teamLead().answerQuestion(this, true);
     }
   }
 
@@ -201,7 +201,7 @@ public class Developer extends Thread implements Employee {
   }
 
   public void answerQuestion(Employee employee, boolean skipChance) {
-    if (this.isLead && skipChance) {
+    if (this.isLead || skipChance) {
       Random r = new Random();
       int choice = r.nextInt(2);
       if (choice==0) {
