@@ -110,7 +110,6 @@ public class Manager extends Thread implements Employee {
         }
       }
     }
-
   }
 
   public void callStandup() {

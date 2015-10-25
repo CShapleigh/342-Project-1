@@ -123,7 +123,7 @@ public class Developer extends Thread implements Employee {
 
       // TODO: proceed with work day
     }
-    askQuestion();
+    doWork(Timebox.LUNCH);
   }
 
   public void arriveAtWork() {
@@ -161,13 +161,16 @@ public class Developer extends Thread implements Employee {
     if (type == "MANAGER_LEAD_STANDUP" && this.isLead) {
       System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
       obligation.startTimebox(this, type);
+      return;
     } else if (type == "LEAD_TEAM_STANDUP") {
       if (this.isLead) {
         System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
         obligation.startTimebox(this, type);
+        return;
       } else {
         System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
         obligation.startTimebox(this, type);
+        return;
       }
     }
 
