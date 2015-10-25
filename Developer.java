@@ -238,6 +238,4 @@ public class Developer extends Thread implements Employee {
       askQuestion();
     }
   }
-
-
 }

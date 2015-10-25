@@ -12,4 +12,8 @@ public class CompanyClock extends Thread {
     }
   }
 
+  public int getCurrentTime() {
+    return currentTime;
+  }
+
 }
