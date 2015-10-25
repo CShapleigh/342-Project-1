@@ -102,6 +102,9 @@ public class Developer extends Thread implements Employee {
         e.printStackTrace();
       }
 
+
+
+
       // Regular developer
     } else {
 
@@ -227,81 +230,7 @@ public class Developer extends Thread implements Employee {
     }
   }
 
-  public void waitForEmployees() {
 
-    if (this.isLead) {
-      System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " waits for other members."); //TODO: add time
-    } else {
-      System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " waits for other members."); //TODO: add time
-    }
-
-    while (!team.everyoneArrived()) {
-      try {
-        // queue up members of team at the meeting room
-        myTeam().get(0).roomEntryBarrier.await();
-        wait();
-      } catch (InterruptedException e) {
-        System.out.println(e);
-      } catch (BrokenBarrierException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-
-  public void grabRoom(Room room) {
-    if (!this.isLead) {
-      return;
-    }
-
-    waitForEmployees();
-
-    // now employees are together; wait for unlocked room
-      // while (Room.isLocked) {
-      //   try {
-      //     wait();
-      //   } catch (InterruptedException e) {
-      //     e.printStackTrace();
-      //   }
-      // }
-
-      // TODO: enter room
-  }
-
-  // TODO: old -- now using a barrier for the lead + developers standup
-//  public void callStandup() {
-//    // Leads meet - get unlocked - start a standup with team
-//    ArrayList<Employee> developers = team.normalDevelopers();
-//    for (Employee developer : developers) {
-//      developer.beginTimebox("Standup");
-//    }
-//  }
-
-  public void endStandUp() {
-    ArrayList<Employee> developers = team.normalDevelopers();
-    for (Employee developer : developers) {
-      //TODO: stuff
-    }
-  }
-
-  private void waitForTeamMembersWork() throws InterruptedException {
-    // using a latch to await for all developers to arrive
-    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " awaits team members."); //TODO: add time
-    try {
-      teamMemberArrivalLatch.await();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // Developers should wait until leads have had their standup with the manager
-    if (this.isLead) {
-      System.out.println("Have morning stand up with manager ");
-    } else {
-      // wait around until that stand up is over
-      System.out.printf("Not lead... waiting around");
-    }
-
-  }
 
 
 }
