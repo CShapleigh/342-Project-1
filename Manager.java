@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,7 @@ public class Manager extends Thread implements Employee {
     this.arrivalLatch = arrivalLatch;
     this.questionLock = questionLock;
     this.hasQuestion = hasQuestion;
-    this.employeesWithQuestions = new ArrayList<Employee>();
+    this.employeesWithQuestions = new ArrayList<>();
   }
 
   // Utility functions
@@ -41,9 +40,6 @@ public class Manager extends Thread implements Employee {
   }
   public boolean isTeamLead() {
     return false;
-  }
-  public Lock getStandUpLock() {
-    return null;
   }
   public void addQuestioningEmployee(Employee employee) {
     employeesWithQuestions.add(employee);
@@ -87,20 +83,23 @@ public class Manager extends Thread implements Employee {
     atWork = true;
     System.out.println("Manager " + managerID + " arrives at work."); //TODO: add time
   }
-
   public void leaveWork() {
     atWork = false;
     System.out.println("Manager " + managerID + " leaves at work."); //TODO: add time
   }
-
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
     System.out.println("Manager " + managerID + " begins " + type); //TODO: add time
     obligation.startTimebox(this, type);
   }
-
   public void endTimeBox(String type) {
     System.out.println("Manager " + managerID + " ends " + type); //TODO: add time
+  }
+
+  // Manager needs to have a morning stand up with leads before anything else happens
+  // Developers just wait around during this morning standup, until leads are finished
+  public void callStandup() {
+    System.out.println("All leads ready. Manager " + managerID + " calling standup...");
   }
 
   public void answerQuestion(Employee employee) {
@@ -112,21 +111,13 @@ public class Manager extends Thread implements Employee {
     questionLock.lock();
     try {
       hasQuestion.await(nextTimebox, TimeUnit.MILLISECONDS);
-      for (Employee developer : employeesWithQuestions) {
-        answerQuestion(developer);
-      }
+      employeesWithQuestions.forEach(this::answerQuestion);
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in manager doWork");
     } finally {
       questionLock.unlock();
     }
-  }
-
-  // Manager needs to have a morning stand up with leads before anything else happens
-  // Developers just wait around during this morning standup, until leads are finished
-  public void callStandup() {
-    System.out.println("All leads ready. Manager " + managerID + " calling standup...");
   }
 
   private void waitForTeamLeadsAtWork() throws InterruptedException {
