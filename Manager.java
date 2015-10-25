@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.TimeUnit;
@@ -99,6 +100,17 @@ public class Manager extends Thread implements Employee {
   public void answerQuestion(Employee employee, boolean skipChance) {
     employee.beginTimebox("Question_Answer");
     beginTimebox("Question_Answer");
+    synchronized (this) {
+      Iterator<Employee> iter = employeesWithQuestions.iterator();
+      while (iter.hasNext()) {
+        Employee emp = iter.next();
+        if (emp.equals(employee)) {
+          iter.remove();
+          break;
+        }
+      }
+    }
+
   }
 
   public void callStandup() {

@@ -94,6 +94,7 @@ public class Timebox {
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
     }
+
   }
 
   private void lunchTime(Employee employee) {
