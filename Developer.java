@@ -159,28 +159,28 @@ public class Developer extends Thread implements Employee {
     Timebox obligation = new Timebox();
 
     if (type == "MANAGER_LEAD_STANDUP" && this.isLead) {
-      System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+      System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
       obligation.startTimebox(this, type);
       return;
     } else if (type == "LEAD_TEAM_STANDUP") {
       if (this.isLead) {
-        System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+        System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
         obligation.startTimebox(this, type);
         return;
       } else {
-        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
         obligation.startTimebox(this, type);
         return;
       }
     }
 
-    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
     obligation.startTimebox(this, type);
 
   }
 
   public void endTimeBox(String type) {
-    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ends " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ends " + type + " Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
   }
 
   public void askQuestion() {

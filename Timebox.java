@@ -1,4 +1,5 @@
 import java.util.Random;
+import static java.lang.Math.toIntExact;
 
 public class Timebox {
   public static final int STANDUP_MS = 150;
@@ -64,7 +65,7 @@ public class Timebox {
 
   private void managerLeadStandupMeeting(Employee employee) {
     try {
-      employee.addToCurrentTime(Long.valueOf(STANDUP_MS));
+      employee.addToCurrentTime((Long.valueOf(STANDUP_MS)));
       employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");

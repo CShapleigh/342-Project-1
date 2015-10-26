@@ -96,15 +96,15 @@ public class Manager extends Thread implements Employee {
   public void arriveAtWork() {
     currentTime = 0;
     atWork = true;
-    System.out.println("Manager " + managerID + " arrives at work. Time: + " Timebox.timeToString(getCurrentTime()) ); //TODO: add time
+    System.out.println("Manager " + managerID + " arrives at work. Time: + " + Timebox.timeToString(getCurrentTime()) ); //TODO: add time
   }
   public void leaveWork() {
     atWork = false;
-    System.out.println("Manager " + managerID + " leaves at work. Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+    System.out.println("Manager " + managerID + " leaves at work. Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
   }
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
-    System.out.println("Manager " + managerID + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
+    System.out.println("Manager " + managerID + " begins " + type + " Time: + " + Timebox.timeToString(getCurrentTime())); //TODO: add time
     obligation.startTimebox(this, type);
   }
   public void endTimeBox(String type) {
