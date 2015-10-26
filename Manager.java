@@ -17,6 +17,7 @@ public class Manager extends Thread implements Employee {
   public Lock questionLock;
   public Condition hasQuestion;
   public ArrayList<Employee> employeesWithQuestions;
+  public int currentTime;
 
 
   public Manager(int managerID, CountDownLatch arrivalLatch, Lock questionLock, Condition hasQuestion, CyclicBarrier allDeveloperStandupBarrier) {
@@ -49,6 +50,14 @@ public class Manager extends Thread implements Employee {
   public void addQuestioningEmployee(Employee employee) {
     employeesWithQuestions.add(employee);
   }
+  public void addToCurrentTime(int time) {
+    currentTime += time;
+  }
+  public int getCurrentTime() {
+    return currentTime;
+  }
+
+  // Thread utilities
   public void threadSleep(long time) {
     try {
       sleep(time);
@@ -85,16 +94,17 @@ public class Manager extends Thread implements Employee {
   }
 
   public void arriveAtWork() {
+    currentTime = 0;
     atWork = true;
-    System.out.println("Manager " + managerID + " arrives at work."); //TODO: add time
+    System.out.println("Manager " + managerID + " arrives at work. Time: + " Timebox.timeToString(getCurrentTime()) ); //TODO: add time
   }
   public void leaveWork() {
     atWork = false;
-    System.out.println("Manager " + managerID + " leaves at work."); //TODO: add time
+    System.out.println("Manager " + managerID + " leaves at work. Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
   }
   public void beginTimebox(String type) {
     Timebox obligation = new Timebox();
-    System.out.println("Manager " + managerID + " begins " + type); //TODO: add time
+    System.out.println("Manager " + managerID + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
     obligation.startTimebox(this, type);
   }
   public void endTimeBox(String type) {
@@ -131,6 +141,7 @@ public class Manager extends Thread implements Employee {
       e.printStackTrace();
       System.err.println("Error in manager doWork");
     } finally {
+      addToCurrentTime(nextTimebox);
       questionLock.unlock();
     }
   }
@@ -146,7 +157,7 @@ public class Manager extends Thread implements Employee {
     System.out.println("Entire team has arrived.");
     callStandup();
   }
-  
+
   public void endOfDayMeeting(){
 	  try {
 			allDeveloperStandupBarrier.await();
@@ -156,7 +167,7 @@ public class Manager extends Thread implements Employee {
 			e.printStackTrace();
 	  }
 	  beginTimebox("Four_PM_Meeting");
-	  
+
   }
 
 }

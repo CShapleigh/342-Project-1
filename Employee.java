@@ -13,5 +13,7 @@ public interface Employee {
   boolean isTeamLead();
   void threadSleep(long time);
   void threadRun();
-  public void endOfDayMeeting();
+  void endOfDayMeeting();
+  void addToCurrentTime(int time);
+  int getCurrentTime();
 }

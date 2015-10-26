@@ -64,6 +64,7 @@ public class Timebox {
 
   private void managerLeadStandupMeeting(Employee employee) {
     try {
+      employee.addToCurrentTime(Long.valueOf(STANDUP_MS));
       employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
@@ -80,6 +81,7 @@ public class Timebox {
     }
 
     try {
+      employee.addToCurrentTime(Long.valueOf(STANDUP_MS));
       employee.threadSleep(Long.valueOf(STANDUP_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
@@ -90,6 +92,7 @@ public class Timebox {
 
   private void answerQuestion(Employee employee) {
     try {
+      employee.addToCurrentTime(Long.valueOf(ANSWER_TIME_MS));
       employee.threadSleep(Long.valueOf(ANSWER_TIME_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during standup");
@@ -105,6 +108,7 @@ public class Timebox {
       lunchTime = fuzzTime(300, 600);
     }
     try {
+      employee.addToCurrentTime(Long.valueOf(lunchTime));
       employee.threadSleep(Long.valueOf(lunchTime));
     } catch (Exception e) {
       System.err.println("Error waiting during lunch");
@@ -113,6 +117,7 @@ public class Timebox {
 
   private void normalMeeting(Employee employee) {
     try {
+      employee.addToCurrentTime(Long.valueOf(MANAGER_LUNCH_AND_MEETING_MS));
       employee.threadSleep(Long.valueOf(MANAGER_LUNCH_AND_MEETING_MS));
     } catch (Exception e) {
       System.err.println("Error waiting during meeting");

@@ -10,6 +10,9 @@ public class CompanyClock extends Thread {
       CompanyClock.currentTime++;
       try {
         sleep(1);
+        if (currentTime == 6000) {
+          return;
+        }
       } catch (Exception e) {
         System.err.println("Error in company clock");
       }

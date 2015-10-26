@@ -19,6 +19,7 @@ public class Developer extends Thread implements Employee {
   public Condition hasQuestion;
   private CyclicBarrier allDeveloperStandupBarrier;
   private Room standUpRoom;
+  public int currentTime;
 
   public Developer(int developerID, boolean isLead,
                    CountDownLatch leadArrivalLatch,
@@ -60,6 +61,14 @@ public class Developer extends Thread implements Employee {
   public boolean inTheBuilding() {
     return atWork;
   }
+  public void addToCurrentTime(int time) {
+    currentTime += time;
+  }
+  public int getCurrentTime() {
+    return currentTime;
+  }
+
+  // Thread utilities
   public void threadSleep(long time) {
     try {
       sleep(time);
@@ -130,6 +139,7 @@ public class Developer extends Thread implements Employee {
   public void arriveAtWork() {
     // arrives at 8am every day
     int arrivalTime = Timebox.fuzzTime(0, 30);
+    currentTime = arrivalTime;
     threadSleep(arrivalTime);
     this.atWork = true;
     if (this.isLead) {
@@ -149,28 +159,28 @@ public class Developer extends Thread implements Employee {
     Timebox obligation = new Timebox();
 
     if (type == "MANAGER_LEAD_STANDUP" && this.isLead) {
-      System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
+      System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
       obligation.startTimebox(this, type);
       return;
     } else if (type == "LEAD_TEAM_STANDUP") {
       if (this.isLead) {
-        System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
+        System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
         obligation.startTimebox(this, type);
         return;
       } else {
-        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
+        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
         obligation.startTimebox(this, type);
         return;
       }
     }
 
-    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type); //TODO: add time
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " begins " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
     obligation.startTimebox(this, type);
 
   }
 
   public void endTimeBox(String type) {
-    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ends " + type); //TODO: add time
+    System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " ends " + type + " Time: + " Timebox.timeToString(getCurrentTime())); //TODO: add time
   }
 
   public void askQuestion() {
@@ -186,7 +196,7 @@ public class Developer extends Thread implements Employee {
     // start leaving 4:30/5. leads have to wait for their devs to leave first
     if (this.isLead && this.team.developersGone() || !this.isLead) {
         this.atWork = false;
-        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " leaves work."); //TODO: add time
+        System.out.println("Developer " + team.getTeamID() + Integer.toString(developerID) + " leaves work. Time: " +Timebox.timeToString(getCurrentTime())); //TODO: add time
     }
   }
 
@@ -220,8 +230,10 @@ public class Developer extends Thread implements Employee {
     int secondSlice = nextTimebox - firstSlice;
     try {
       currentThread().sleep(firstSlice);
+      addToCurrentTime(firstSlice);
       randomizeQuestion();
       currentThread().sleep(secondSlice);
+      addToCurrentTime(secondSlice);
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Error in employee doWork");
@@ -235,7 +247,7 @@ public class Developer extends Thread implements Employee {
       askQuestion();
     }
   }
-  
+
   public void endOfDayMeeting(){
 	  int time = Timebox.fuzzTime(0,150);
 	  try{
