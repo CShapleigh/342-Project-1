@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.TimeUnit;
 
@@ -11,12 +13,13 @@ public class Manager extends Thread implements Employee {
 
   public int managerID;
   public CountDownLatch arrivalLatch;
+  public CyclicBarrier allDeveloperStandupBarrier;
   public Lock questionLock;
   public Condition hasQuestion;
   public ArrayList<Employee> employeesWithQuestions;
 
 
-  public Manager(int managerID, CountDownLatch arrivalLatch, Lock questionLock, Condition hasQuestion) {
+  public Manager(int managerID, CountDownLatch arrivalLatch, Lock questionLock, Condition hasQuestion, CyclicBarrier allDeveloperStandupBarrier) {
     teams = new ArrayList<>();
     this.managerID  = managerID;
     atWork = false;
@@ -24,6 +27,7 @@ public class Manager extends Thread implements Employee {
     this.questionLock = questionLock;
     this.hasQuestion = hasQuestion;
     this.employeesWithQuestions = new ArrayList<>();
+    this.allDeveloperStandupBarrier = allDeveloperStandupBarrier;
   }
 
   // Utility functions
@@ -74,7 +78,7 @@ public class Manager extends Thread implements Employee {
     beginTimebox("TWO_PM_Meeting");
     endTimeBox("TWO_PM_Meeting");
     doWork(Timebox.FOUR_PM_MEET);
-    beginTimebox("FOUR_PM_Meeting");
+    endOfDayMeeting();
     endTimeBox("FOUR_PM_Meeting");
     doWork(Timebox.FIVE_PM);
     leaveWork();
@@ -141,6 +145,18 @@ public class Manager extends Thread implements Employee {
     }
     System.out.println("Entire team has arrived.");
     callStandup();
+  }
+  
+  public void endOfDayMeeting(){
+	  try {
+			allDeveloperStandupBarrier.await();
+	  } catch (InterruptedException e) {
+			e.printStackTrace();
+	  } catch (BrokenBarrierException e) {
+			e.printStackTrace();
+	  }
+	  beginTimebox("Four_PM_Meeting");
+	  
   }
 
 }

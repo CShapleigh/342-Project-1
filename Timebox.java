@@ -72,11 +72,11 @@ public class Timebox {
 
   private void standupMeeting(Employee employee) {
     if ((employee instanceof Developer) && employee.isTeamLead()) {
-      System.out.println("Lead starting standup");
+      //System.out.println("Lead starting standup");
     } else if (employee instanceof Manager) {
-      System.out.println("Manager starting standup");
+      //System.out.println("Manager starting standup");
     } else {
-      System.out.println("Regular dev starting standup");
+      //System.out.println("Regular dev starting standup");
     }
 
     try {
@@ -85,7 +85,7 @@ public class Timebox {
       System.err.println("Error waiting during standup");
     }
 
-    System.out.println("Finished timebox");
+    //System.out.println("Finished timebox");
   }
 
   private void answerQuestion(Employee employee) {

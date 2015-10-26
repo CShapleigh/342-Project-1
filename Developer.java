@@ -88,8 +88,6 @@ public class Developer extends Thread implements Employee {
         try {
           this.team.getDeveloperStandupBarrier().await();
           standUpRoom.addTeam(this.team);
-          //beginTimebox("LEAD_DEVELOPER_STANDUP");
-          //System.out.println("Lead " + team.getTeamID() + Integer.toString(developerID) + " has finished standup with team.");
         } catch (InterruptedException e) {
           e.printStackTrace();
         } catch (BrokenBarrierException e) {
@@ -124,6 +122,9 @@ public class Developer extends Thread implements Employee {
       // TODO: proceed with work day
     }
     doWork(Timebox.LUNCH);
+    beginTimebox("Lunch");
+    doWork(Timebox.FOUR_PM_MEET);
+    endOfDayMeeting();
   }
 
   public void arriveAtWork() {
@@ -233,5 +234,23 @@ public class Developer extends Thread implements Employee {
     if (choice==0) {
       askQuestion();
     }
+  }
+  
+  public void endOfDayMeeting(){
+	  int time = Timebox.fuzzTime(0,150);
+	  try{
+		  currentThread().sleep(time);
+	  } catch (Exception e){
+		  e.printStackTrace();
+		  System.err.println("Error in employee endOfDay");
+	  }
+	  try {
+		allDeveloperStandupBarrier.await();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	} catch (BrokenBarrierException e) {
+		e.printStackTrace();
+	}
+	  beginTimebox("Four_PM_Meeting");
   }
 }

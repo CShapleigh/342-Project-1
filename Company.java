@@ -20,6 +20,7 @@ public class Company {
     final CountDownLatch leadArrivalLatch = new CountDownLatch(3);
     final CountDownLatch teamMemberArrivalLatch = new CountDownLatch(4);
     final CountDownLatch developersDontCareLatch = new CountDownLatch(0);
+    final CountDownLatch endOfDayMeetingLatch = new CountDownLatch(12);
     final Lock questionLock = new ReentrantLock();
     final Condition hasQuestion = questionLock.newCondition();
     final CompanyClock companyClock = new CompanyClock();
@@ -45,7 +46,7 @@ public class Company {
     });
 
     for(int i = 0; i < numberOfManagers; i++) {
-      Employee manager = new Manager(i, leadArrivalLatch, questionLock, hasQuestion);
+      Employee manager = new Manager(i, leadArrivalLatch, questionLock, hasQuestion, allDeveloperStandupBarrier);
       for(int teamNumber = 0; teamNumber < 3; teamNumber++) {
 
 

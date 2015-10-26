@@ -13,4 +13,5 @@ public interface Employee {
   boolean isTeamLead();
   void threadSleep(long time);
   void threadRun();
+  public void endOfDayMeeting();
 }
