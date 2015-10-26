@@ -1,0 +1,120 @@
+Starting work day with 1 managers.
+Manager 0 arrives at work.
+Manager 0 waits for team leads.
+Developer 20 arrives at work.
+Developer 20 ready for standup. Waiting...
+Developer 12 arrives at work.
+Developer 12 ready for standup. Waiting...
+Lead 22 arrives at work.
+Developer 03 arrives at work.
+Developer 03 ready for standup. Waiting...
+Developer 01 arrives at work.
+Developer 01 ready for standup. Waiting...
+Developer 21 arrives at work.
+Developer 21 ready for standup. Waiting...
+Lead 00 arrives at work.
+Lead 11 arrives at work.
+Entire team has arrived.
+All leads are ready for the standup with the manager
+All leads ready. Manager 0 calling standup...
+Lead 11 begins MANAGER_LEAD_STANDUP
+Lead 22 begins MANAGER_LEAD_STANDUP
+Lead 00 begins MANAGER_LEAD_STANDUP
+Developer 02 arrives at work.
+Developer 02 ready for standup. Waiting...
+Developer 13 arrives at work.
+Developer 13 ready for standup. Waiting...
+Developer 10 arrives at work.
+Developer 10 ready for standup. Waiting...
+Developer 23 arrives at work.
+Developer 23 ready for standup. Waiting...
+Lead 11 has finished standup with manager.
+Lead 11 goes to standup with team.
+Leads and developers can begin standup now
+Developer 12 begins LEAD_DEVELOPER_STANDUP
+Developer 10 begins LEAD_DEVELOPER_STANDUP
+Developer 10 finished standup
+Room is locked
+Developer 13 begins LEAD_DEVELOPER_STANDUP
+Developer 12 finished standup
+Developer 13 finished standup
+Team 1 arrives in room
+Developer 10 begins LEAD_TEAM_STANDUP
+Lead 00 has finished standup with manager.
+Lead 00 goes to standup with team.
+Leads and developers can begin standup now
+Developer 03 begins LEAD_DEVELOPER_STANDUP
+Developer 02 begins LEAD_DEVELOPER_STANDUP
+Developer 01 begins LEAD_DEVELOPER_STANDUP
+Developer 02 finished standup
+Developer 03 finished standup
+Developer 01 finished standup
+Lead 22 has finished standup with manager.
+Lead 22 goes to standup with team.
+Leads and developers can begin standup now
+Developer 20 begins LEAD_DEVELOPER_STANDUP
+Developer 21 begins LEAD_DEVELOPER_STANDUP
+Developer 21 finished standup
+Developer 23 begins LEAD_DEVELOPER_STANDUP
+Developer 23 finished standup
+Developer 20 finished standup
+Lead 11 begins LEAD_TEAM_STANDUP
+Developer 12 begins LEAD_TEAM_STANDUP
+Developer 13 begins LEAD_TEAM_STANDUP
+Team 1 has finished its standup
+Room is open
+Room is locked
+Team 0 arrives in room
+Lead 00 begins LEAD_TEAM_STANDUP
+Developer 01 begins LEAD_TEAM_STANDUP
+Developer 02 begins LEAD_TEAM_STANDUP
+Manager 0 begins Ten_AM_Meeting
+Developer 03 begins LEAD_TEAM_STANDUP
+Team 0 has finished its standup
+Room is open
+Room is locked
+Team 2 arrives in room
+Developer 20 begins LEAD_TEAM_STANDUP
+Developer 21 begins LEAD_TEAM_STANDUP
+Lead 22 begins LEAD_TEAM_STANDUP
+Manager 0 ends Ten_AM_Meeting
+Developer 23 begins LEAD_TEAM_STANDUP
+Team 2 has finished its standup
+Room is open
+Developer 03 asks a question.
+Developer 00 immediately answers question.
+Developer 20 asks a question.
+Developer 22 immediately answers question.
+Developer 13 begins Lunch
+Developer 12 begins Lunch
+Developer 10 begins Lunch
+Developer 02 begins Lunch
+Developer 23 begins Lunch
+Developer 01 begins Lunch
+Developer 20 begins Lunch
+Developer 03 begins Lunch
+Developer 21 begins Lunch
+Developer 11 asks a question.
+Developer 11 immediately answers question.
+Developer 00 asks a question.
+Developer 00 immediately answers question.
+Developer 11 begins Lunch
+Developer 00 begins Lunch
+Manager 0 begins Lunch
+Developer 22 begins Lunch
+Manager 0 ends Lunch
+Manager 0 begins TWO_PM_Meeting
+Manager 0 ends TWO_PM_Meeting
+All developers are ready for the standup
+Developer 22 begins Four_PM_Meeting
+Developer 10 begins Four_PM_Meeting
+Developer 03 begins Four_PM_Meeting
+Developer 12 begins Four_PM_Meeting
+Developer 13 begins Four_PM_Meeting
+Developer 21 begins Four_PM_Meeting
+Developer 01 begins Four_PM_Meeting
+Developer 11 begins Four_PM_Meeting
+Developer 02 begins Four_PM_Meeting
+Developer 00 begins Four_PM_Meeting
+Developer 23 begins Four_PM_Meeting
+Developer 20 begins Four_PM_Meeting
